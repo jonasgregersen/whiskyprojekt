@@ -1,0 +1,37 @@
+package Storage;
+import Model.*;
+
+import java.util.ArrayList;
+
+public class Storage {
+    private static ArrayList<Fad> fade = new ArrayList<>();
+    private static ArrayList<Lager> lagre = new ArrayList<>();
+    private static ArrayList<Destillering> destillater = new ArrayList<>();
+    public static void addFad(Fad fad) {
+        if (!fade.contains(fad)) {
+            fade.add(fad);
+        }
+    }
+    public static void removeFad(Fad fad) {
+        fade.remove(fad);
+    }
+    public static ArrayList<Fad> getFade() {
+        return new ArrayList<>(fade);
+    }
+    public static void addLager(Lager l) {
+        if (!lagre.contains(l)) {
+            lagre.add(l);
+        }
+    }
+    public static void removeLager(Lager l) {
+        lagre.remove(l);
+    }
+    public static ArrayList<Lager> getLagre() {
+        return new ArrayList<>(lagre);
+    }
+    public static void addDestillat(Destillering d) {
+        if (!destillater.contains(d)) {
+            destillater.add(d);
+        }
+    }
+}
