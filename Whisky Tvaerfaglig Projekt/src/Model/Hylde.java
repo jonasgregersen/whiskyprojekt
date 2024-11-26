@@ -16,10 +16,16 @@ public class Hylde {
         }
         fade.add(fad);
     }
+    public ArrayList<Fad> getFade() {
+        return new ArrayList<Fad>(fade);
+    }
     public void fjernFad(Fad fad) {
         fade.remove(fad);
     }
     public String getHyldeId() {
         return hyldeId;
+    }
+    public boolean vedMaksKapacitet() {
+        return kapacitet == fade.size();
     }
 }
