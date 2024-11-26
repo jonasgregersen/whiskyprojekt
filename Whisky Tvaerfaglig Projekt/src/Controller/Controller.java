@@ -7,8 +7,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Controller {
-    public static Fad opretFad(int fadNr, Fad.FadType fadType, double kapacitet, Lager lager, Hylde hylde, Reol reol, String indkøbt) {
-        Fad fad = new Fad(fadNr, fadType, kapacitet, lager, hylde, reol, indkøbt);
+    public static Fad opretFad(int fadNr, Fad.FadType fadType, double kapacitet, Placering placering, String indkøbt) {
+        Fad fad = new Fad(fadNr, fadType, kapacitet, placering, indkøbt);
         Storage.addFad(fad);
         return fad;
     }
