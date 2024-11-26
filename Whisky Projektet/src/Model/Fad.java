@@ -48,18 +48,18 @@ public class Fad {
         this.alkoholProcent = alkoholProcent;
         datoPåfyldning = LocalDate.now();
         registrerHændelse("Påfyldning","Fad nr. " + fadNr + " er blevet påfyldt med " + mængde + " liter" +
-                " fra spirit batch: " + destillat.getSpiritBatch() + ", med alkoholprocent på " + alkoholProcent + "%. Nuværende indhold: " + nuværendeIndhold);
+                " fra spirit batch: " + destillat.getSpiritBatch() + ", med alkoholprocent på " + alkoholProcent + "%. Nuværende indhold: " + nuværendeIndhold + " liter.");
     }
     public void tap(double mængde) throws IllegalArgumentException {
         if (nuværendeIndhold - mængde < 0) {
             throw new IllegalArgumentException("Tapmængden er større end fadets indhold.");
         }
-        if (datoPåfyldning.plusYears(3).isAfter(LocalDate.now())) {
+        if (!klarTilTapning()) {
             throw new IllegalArgumentException("Fadet er ikke klar til tapning.");
         }
         this.nuværendeIndhold -= mængde;
         registrerHændelse("Tapning", "Fad nr. " + fadNr + " er blevet tappet for " + mængde + " liter" +
-                ". Nuværende indhold: " + nuværendeIndhold);
+                ". Nuværende indhold: " + nuværendeIndhold + " liter.");
     }
     public void flytLager(Lager lager, Hylde hylde, Reol reol) {
         registrerHændelse("Flytning", "Fad er blevet flyttet fra " + this.lager
@@ -96,7 +96,13 @@ public class Fad {
             System.out.println(h.udskriv());
         }
     }
+    public boolean klarTilTapning() {
+        return LocalDate.now().isAfter(datoPåfyldning.plusYears(3));
+    }
     public void setDatoPåfyldning(LocalDate dato) {
         this.datoPåfyldning = dato;
+    }
+    public String toString() {
+        return "FadNr: " + fadNr + ", af type: " + fadType.toString() + ", på lager: " + lager.getNavn() + ", reol: " + reol.getReolId() + ", hylde: " + hylde.getHyldeId();
     }
 }

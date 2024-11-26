@@ -1,5 +1,6 @@
 import Controller.Controller;
 import Model.*;
+import Storage.Storage;
 
 import java.time.LocalDate;
 
@@ -13,8 +14,9 @@ public class Main {
         destillering.afslut();
         destillering.registrerDestilleringsData(68, 300);
         fad.påfyld(destillering, 30, 70);
-        fad.setDatoPåfyldning(LocalDate.of(2021,11,26));
+        fad.setDatoPåfyldning(LocalDate.of(2020,11,26));
         fad.tap(10);
         fad.udskrivHistorik();
+        System.out.println(Controller.fadKlarTilTapning());
     }
 }

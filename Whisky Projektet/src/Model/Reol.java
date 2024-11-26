@@ -24,7 +24,7 @@ public class Reol {
     public String getReolId() {
         return reolId;
     }
-    public Hylde getHyldeId(String hyldeId) {
+    public Hylde getHylde(String hyldeId) {
         for (Hylde h : hylder) {
             if (hyldeId.equals(h.getHyldeId()));
             return h;
