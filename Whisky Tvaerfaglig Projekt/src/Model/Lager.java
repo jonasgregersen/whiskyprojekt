@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Lager {
+    private int id;
     private String navn;
     private List<Reol> reoler;
 
-    public Lager(String navn) {
+    public Lager(int id, String navn) {
         this.navn = navn;
+        this.id = id;
         reoler = new ArrayList<>();
     }
 
@@ -25,7 +27,7 @@ public class Lager {
         reoler.add(reol);
         return reol;
     }
-    public String getNavn() {
-        return navn;
+    public String toString() {
+        return "Lager ID: " + id + ", Navn: " + navn;
     }
 }

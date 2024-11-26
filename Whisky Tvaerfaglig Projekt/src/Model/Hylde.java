@@ -28,4 +28,7 @@ public class Hylde {
     public boolean vedMaksKapacitet() {
         return kapacitet == fade.size();
     }
+    public String toString() {
+        return "Hylde ID: " + hyldeId;
+    }
 }

@@ -12,8 +12,8 @@ public class Controller {
         Storage.addFad(fad);
         return fad;
     }
-    public static Lager opretLager(String navn) {
-        Lager lager = new Lager(navn);
+    public static Lager opretLager(int id, String navn) {
+        Lager lager = new Lager(id, navn);
         Storage.addLager(lager);
         return lager;
     }

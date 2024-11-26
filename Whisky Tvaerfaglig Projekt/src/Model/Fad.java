@@ -100,7 +100,7 @@ public class Fad {
                 "\nFad type: " + fadType +
                 "\nKapacitet: " + kapacitet +
                 "\nNuværende indhold: " + nuværendeIndhold +
-                "\nLager: " + lager +
+                "\nPlacering: " + placering +
                 "\nIndkøbt fra: " + indkøbtFra;
     }
 
@@ -119,6 +119,6 @@ public class Fad {
     }
 
     public String toString() {
-        return "FadNr: " + fadNr + ", af type: " + fadType.toString() + ", på lager: " + lager.getNavn() + ", reol: " + reol.getReolId() + ", hylde: " + hylde.getHyldeId();
+        return "FadNr: " + fadNr + ", af type: " + fadType.toString() + ", " + placering;
     }
 }

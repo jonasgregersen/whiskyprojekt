@@ -31,4 +31,7 @@ public class Reol {
         }
         return null;
     }
+    public String toString() {
+        return "Reol ID: " + reolId;
+    }
 }
