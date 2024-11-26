@@ -25,10 +25,10 @@ class FadTest {
     @BeforeEach
     void setUp() {
         lager = new Lager(1, "Lager 1");
-        reol = new Reol(101, "Reol A");
-        hylde = new Hylde(201, "Hylde 1");
-        placering = new Placering(lager, reol, hylde, 100.0);
-        destillering = new Destillering(1, "BatchA");
+        reol = new Reol("101");
+        hylde = new Hylde("201", 4);
+        placering = new Placering(lager, reol, hylde);
+        destillering = new Destillering(LocalDate.of(2020,9,14), "BatchA");
 
         fad = new Fad(1, Fad.FadType.BOURBON, 200.0, placering, "Kentucky");
     }
@@ -53,6 +53,7 @@ class FadTest {
     @Test
     void testTap() {
         fad.påfyld(destillering, 150.0, 65.0);
+        fad.setDatoPåfyldning(LocalDate.of(2020,9,14));
         fad.tap(50.0);
 
         assertEquals(100.0, fad.getNuværendeIndhold(), "Indholdet efter tapning skal være 100 liter.");
@@ -70,9 +71,9 @@ class FadTest {
     @Test
     void testFlytPlacering() {
         Lager nytLager = new Lager(2, "Lager 2");
-        Reol nyReol = new Reol(102, "Reol B");
-        Hylde nyHylde = new Hylde(202, "Hylde 2");
-        Placering nyPlacering = new Placering(nytLager, nyReol, nyHylde, 100.0);
+        Reol nyReol = new Reol("Reol B");
+        Hylde nyHylde = new Hylde("202", 6);
+        Placering nyPlacering = new Placering(nytLager, nyReol, nyHylde);
 
         fad.flytPlacering(nyPlacering);
 

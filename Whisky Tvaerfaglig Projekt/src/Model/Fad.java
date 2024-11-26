@@ -121,4 +121,16 @@ public class Fad {
     public String toString() {
         return "FadNr: " + fadNr + ", af type: " + fadType.toString() + ", " + placering;
     }
+    public double getNuværendeIndhold() {
+        return nuværendeIndhold;
+    }
+    public double getKapacitet() {
+        return kapacitet;
+    }
+    public double getAlkoholProcent() {
+        return alkoholProcent;
+    }
+    public Placering getPlacering() {
+        return placering;
+    }
 }
