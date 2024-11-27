@@ -14,7 +14,7 @@ public class Destillering {
     private static int id = 0;
     private List<Fad> fade;
     private List<Historik> historik;
-    
+
 
     public Destillering(LocalDate startDato, String spiritBatch) {
         this.startDato = startDato;
@@ -23,6 +23,7 @@ public class Destillering {
         historik = new ArrayList<>();
         id++;
     }
+
     public void registrerDestilleringsData(double alkoholProcent, double mængde) throws IllegalArgumentException {
         if (alkoholProcent < 0 || mængde < 0) {
             throw new IllegalArgumentException("Destillerings data skal være et positivt tal.");
@@ -30,9 +31,10 @@ public class Destillering {
         this.alkoholProcent = alkoholProcent;
         this.mængde = mængde;
         afslut();
-        registrerHændelse("Dataregistrering","Destillering afsluttet d." + slutDato.getDayOfMonth() + "/" + slutDato.getDayOfMonth() +
+        registrerHændelse("Dataregistrering", "Destillering afsluttet d." + slutDato.getDayOfMonth() + "/" + slutDato.getDayOfMonth() +
                 "/" + slutDato.getYear() + ". Alkohol procent: " + alkoholProcent + ", mængde : " + mængde);
     }
+
     public void tilførFad(Fad fad, double mængde) throws IllegalArgumentException {
         if (this.mængde - mængde < 0) {
             throw new IllegalArgumentException("Ikke nok væske i destilleringen.");
@@ -45,15 +47,18 @@ public class Destillering {
         fade.add(fad);
         registrerHændelse("Tilførelse", "BatchNr. " + spiritBatch + " påfyldt fadNr. " + fad.getFadNr() + " " + mængde + " liter.");
     }
+
     private Historik registrerHændelse(String type, String beskrivelse) {
         Historik hændelse = new Historik();
         hændelse.registrerHændelse(type, beskrivelse);
         historik.add(hændelse);
         return hændelse;
     }
+
     public String getSpiritBatch() {
         return spiritBatch;
     }
+
     public void afslut() {
         slutDato = LocalDate.now();
     }
