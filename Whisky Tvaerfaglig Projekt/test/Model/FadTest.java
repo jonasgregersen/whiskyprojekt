@@ -11,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -92,5 +93,23 @@ class FadTest {
     void testIkkeKlarTilTapning() {
         fad.setDatoPåfyldning(LocalDate.now().minusYears(2));
         assertFalse(fad.klarTilTapning(), "Fadet skal ikke være klar til tapning, da det ikke har været påfyldt i 3 år.");
+    }
+    @Test
+    void testBeregnDestilleringerVedTapning() {
+        Destillering destillering1 = new Destillering(LocalDate.of(2019, 8, 13), "Batch A");
+        Destillering destillering2 = new Destillering(LocalDate.of(2016, 6,9), "Batch B");
+
+        Fad fad1 = new Fad(1, Fad.FadType.BOURBON, 200.0, placering, "Sall");
+        fad1.påfyld(destillering1, 120.0, 65.0);
+        fad1.påfyld(destillering2, 80.0, 65.0);
+
+        double mængdeTappet = 100.0;
+        Map<Destillering, Double> tappetMængde = fad1.tap(mængdeTappet);
+
+        assertEquals(60.0, tappetMængde.get(destillering1), "Batch A's tappede mængde skal være 60 liter.");
+        assertEquals(40.0, tappetMængde.get(destillering2), "Batch B's tappede mængde skal være 40 liter.");
+        assertEquals(60.0, fad1.getDestillater().get(destillering1), "Batch A's resterende mængde skal være 60 liter.");
+        assertEquals(40.0, fad1.getDestillater().get(destillering2), "Batch B's resterende mængde skal være 40 liter.");
+        assertEquals(100.0, fad1.getNuværendeIndhold(), "Fadets samlede indhold skal være 100 liter.");
     }
 }

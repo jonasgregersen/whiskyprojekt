@@ -2,7 +2,9 @@ package Model;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Fad {
     private int fadNr;
@@ -13,7 +15,7 @@ public class Fad {
     private double nuværendeIndhold;
     private double alkoholProcent;
     private String indkøbtFra;
-    private List<Destillering> destillater;
+    private Map<Destillering, Double> destillater = new HashMap<>();
     private List<Historik> historik;
 
     public enum FadType {
@@ -26,7 +28,6 @@ public class Fad {
         this.kapacitet = kapacitet;
         this.placering = placering;
         historik = new ArrayList<>();
-        destillater = new ArrayList<>();
         this.indkøbtFra = indkøbt;
         this.nuværendeIndhold = 0.0;
     }
@@ -41,7 +42,7 @@ public class Fad {
         if (destillat == null) {
             throw new IllegalArgumentException("Spiritbatch skal specificeres.");
         }
-        destillater.add(destillat);
+        destillater.put(destillat, mængde);
         placering.getHylde().tilføjFad(this);
         this.nuværendeIndhold += mængde;
         this.alkoholProcent = alkoholProcent;
@@ -50,18 +51,34 @@ public class Fad {
                 " fra spirit batch: " + destillat.getSpiritBatch() + ", med alkoholprocent på " + alkoholProcent + "%. Nuværende indhold: " + nuværendeIndhold + " liter.");
     }
 
-    public void tap(double mængde) throws IllegalArgumentException {
+    public HashMap<Destillering, Double> tap(double mængde) throws IllegalArgumentException {
         if (nuværendeIndhold - mængde < 0) {
             throw new IllegalArgumentException("Tapmængden er større end fadets indhold.");
         }
-        if (!klarTilTapning()) {
-            throw new IllegalArgumentException("Fadet er ikke klar til tapning.");
+        //if (!klarTilTapning()) { // Fadet skal være lagret i mindst 3 år.
+        //    throw new IllegalArgumentException("Fadet er ikke klar til tapning.");
+        //}
+        double tapMængde = 0;
+        HashMap<Destillering, Double> tapningPrDestillat = new HashMap<>();
+        for (Map.Entry<Destillering, Double> d : destillater.entrySet()) {
+            tapMængde = (d.getValue() / nuværendeIndhold) * mængde;
+            tapningPrDestillat.put(d.getKey(), tapMængde);
+            destillater.put(d.getKey(), d.getValue() - tapMængde);
         }
-        this.nuværendeIndhold -= mængde;
+        nuværendeIndhold -= mængde;
         registrerHændelse("Tapning", "Fad nr. " + fadNr + " er blevet tappet for " + mængde + " liter" +
                 ". Nuværende indhold: " + nuværendeIndhold + " liter.");
+        return tapningPrDestillat;
     }
-
+    public HashMap<Destillering, Double> beregnTapningPrDestillat(double mængde) {
+        double tapMængde = 0;
+        HashMap<Destillering, Double> tapningPrDestillat = new HashMap<>();
+        for (Map.Entry<Destillering, Double> d : destillater.entrySet()) {
+            tapMængde = (d.getValue() / nuværendeIndhold) * mængde;
+            tapningPrDestillat.put(d.getKey(), tapMængde);
+        }
+        return tapningPrDestillat;
+    }
     public void flytPlacering(Placering nyPlacering) throws IllegalArgumentException {
         if (nyPlacering.getHylde().vedMaksKapacitet()) {
             throw new IllegalArgumentException("Hylde er ved maks kapacitet.");
@@ -116,6 +133,9 @@ public class Fad {
 
     public void setDatoPåfyldning(LocalDate dato) {
         this.datoPåfyldning = dato;
+    }
+    public HashMap<Destillering, Double> getDestillater() {
+        return new HashMap<>(destillater);
     }
 
     public String toString() {
