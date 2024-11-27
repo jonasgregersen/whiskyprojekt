@@ -39,4 +39,7 @@ public class Controller {
         }
         return null;
     }
+    public static void tilførDestilleringTilFad(Destillering destillering, Fad fad, double mængde) {
+        destillering.tilførFad(fad, mængde);
+    }
 }

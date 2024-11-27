@@ -21,6 +21,7 @@ public class Destillering {
         this.spiritBatch = spiritBatch;
         destilleringId = id;
         historik = new ArrayList<>();
+        this.fade = new ArrayList<>();
         id++;
     }
 
@@ -41,6 +42,9 @@ public class Destillering {
         }
         if (this.mængde == 0 || this.alkoholProcent == 0) {
             throw new NullPointerException("Kan ikke tilføre fad uden destillerings data.");
+        }
+        if (fad == null) {
+            throw new IllegalArgumentException("Fadet skal angives");
         }
         this.mængde -= mængde;
         fad.påfyld(this, mængde, this.alkoholProcent);

@@ -1,5 +1,6 @@
 package Test;
 
+import Controller.Controller;
 import Model.Fad;
 import Model.Destillering;
 import Model.Placering;
@@ -36,7 +37,8 @@ class FadTest {
 
     @Test
     void testPåfyld() {
-        fad.påfyld(destillering, 150.0, 65.0);
+        destillering.registrerDestilleringsData(65, 150);
+        Controller.tilførDestilleringTilFad(destillering, fad, 150);
 
         assertEquals(150.0, fad.getNuværendeIndhold(), "Indholdet i fadet skal være 150 liter.");
         assertEquals(65.0, fad.getAlkoholProcent(), "Alkoholprocenten skal være 65%.");
@@ -45,15 +47,17 @@ class FadTest {
 
     @Test
     void testPåfyldOverKapacitet() {
+        destillering.registrerDestilleringsData(65, 250);
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            fad.påfyld(destillering, 250.0, 65.0);
+            Controller.tilførDestilleringTilFad(destillering, fad, 250);
         });
         assertEquals("Fadet kan ikke rumme mere.", exception.getMessage());
     }
 
     @Test
     void testTap() {
-        fad.påfyld(destillering, 150.0, 65.0);
+        destillering.registrerDestilleringsData(65,150);
+        Controller.tilførDestilleringTilFad(destillering,fad,150);
         fad.setDatoPåfyldning(LocalDate.of(2020,9,14));
         fad.tap(50.0);
 
@@ -62,7 +66,8 @@ class FadTest {
 
     @Test
     void testTapForMeget() {
-        fad.påfyld(destillering, 150.0, 65.0);
+        destillering.registrerDestilleringsData(65,150);
+        Controller.tilførDestilleringTilFad(destillering,fad,150);
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             fad.tap(200.0);
         });
@@ -81,6 +86,7 @@ class FadTest {
         assertEquals(nytLager, fad.getPlacering().getLager(), "Fadet skal være flyttet til det nye lager.");
         assertEquals(nyReol, fad.getPlacering().getReol(), "Fadet skal være flyttet til den nye reol.");
         assertEquals(nyHylde, fad.getPlacering().getHylde(), "Fadet skal være flyttet til den nye hylde.");
+        assertNotNull(fad.getHistorik(), "Historikken skal være opdateret efter hændelsen.");
     }
 
     @Test
@@ -100,8 +106,11 @@ class FadTest {
         Destillering destillering2 = new Destillering(LocalDate.of(2016, 6,9), "Batch B");
 
         Fad fad1 = new Fad(1, Fad.FadType.BOURBON, 200.0, placering, "Sall");
-        fad1.påfyld(destillering1, 120.0, 65.0);
-        fad1.påfyld(destillering2, 80.0, 65.0);
+        destillering1.registrerDestilleringsData(65, 120);
+        destillering2.registrerDestilleringsData(65, 80);
+        Controller.tilførDestilleringTilFad(destillering1, fad1, 120);
+        Controller.tilførDestilleringTilFad(destillering2, fad1, 80);
+
 
         double mængdeTappet = 100.0;
         Map<Destillering, Double> tappetMængde = fad1.tap(mængdeTappet);
