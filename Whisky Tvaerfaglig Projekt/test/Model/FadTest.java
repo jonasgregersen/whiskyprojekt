@@ -32,7 +32,8 @@ class FadTest {
         placering = new Placering(lager, reol, hylde);
         destillering = new Destillering(LocalDate.of(2020,9,14), "BatchA");
 
-        fad = new Fad(1, Fad.FadType.BOURBON, 200.0, placering, "Kentucky");
+        fad = new Fad(1, Fad.FadType.BOURBON, 200.0, "Kentucky");
+        fad.setPlacering(placering);
     }
 
     @Test
@@ -79,14 +80,19 @@ class FadTest {
         Lager nytLager = new Lager(2, "Lager 2");
         Reol nyReol = new Reol("Reol B");
         Hylde nyHylde = new Hylde("202", 6);
+        Hylde gammelHylde = hylde;
         Placering nyPlacering = new Placering(nytLager, nyReol, nyHylde);
 
-        fad.flytPlacering(nyPlacering);
+        fad.setPlacering(placering);
+        assertEquals(fad, hylde.getFade().get(0), "Fadet skal være på ");
+
+        fad.setPlacering(nyPlacering);
 
         assertEquals(nytLager, fad.getPlacering().getLager(), "Fadet skal være flyttet til det nye lager.");
         assertEquals(nyReol, fad.getPlacering().getReol(), "Fadet skal være flyttet til den nye reol.");
         assertEquals(nyHylde, fad.getPlacering().getHylde(), "Fadet skal være flyttet til den nye hylde.");
         assertNotNull(fad.getHistorik(), "Historikken skal være opdateret efter hændelsen.");
+        assertTrue(gammelHylde.getFade().isEmpty(), "Den gamle hylde skal være tom efter flytningen.");
     }
 
     @Test
@@ -105,7 +111,8 @@ class FadTest {
         Destillering destillering1 = new Destillering(LocalDate.of(2019, 8, 13), "Batch A");
         Destillering destillering2 = new Destillering(LocalDate.of(2016, 6,9), "Batch B");
 
-        Fad fad1 = new Fad(1, Fad.FadType.BOURBON, 200.0, placering, "Sall");
+        Fad fad1 = new Fad(1, Fad.FadType.BOURBON, 200.0, "Sall");
+        fad1.setPlacering(placering);
         destillering1.registrerDestilleringsData(65, 120);
         destillering2.registrerDestilleringsData(65, 80);
         Controller.tilførDestilleringTilFad(destillering1, fad1, 120);

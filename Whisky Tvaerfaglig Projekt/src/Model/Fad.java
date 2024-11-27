@@ -22,11 +22,10 @@ public class Fad {
         NY, BOURBON, SHERRY, OLOROSO
     }
 
-    public Fad(int fadNr, FadType fadType, double kapacitet, Placering placering, String indkøbt) {
+    public Fad(int fadNr, FadType fadType, double kapacitet, String indkøbt) {
         this.fadNr = fadNr;
         this.fadType = fadType;
         this.kapacitet = kapacitet;
-        this.placering = placering;
         historik = new ArrayList<>();
         this.indkøbtFra = indkøbt;
         this.nuværendeIndhold = 0.0;
@@ -79,22 +78,32 @@ public class Fad {
         }
         return tapningPrDestillat;
     }
-    public void flytPlacering(Placering nyPlacering) throws IllegalArgumentException {
+    public void setPlacering(Placering nyPlacering) throws IllegalArgumentException {
         if (nyPlacering.getHylde().vedMaksKapacitet()) {
             throw new IllegalArgumentException("Hylde er ved maks kapacitet.");
         }
-        Lager gammelLager = this.placering.getLager();
-        Reol gammelReol = this.placering.getReol();
-        Hylde gammelHylde = this.placering.getHylde();
-        Lager nytLager = nyPlacering.getLager();
-        Reol nyReol = nyPlacering.getReol();
-        Hylde nyHylde = nyPlacering.getHylde();
-        registrerHændelse("Flytning", "Fad er blevet flyttet fra " + gammelLager
-                + ", reolnr. " + gammelReol + " og hyldeNr. " + gammelHylde +
-                ", til " + nytLager + ", hylde " + nyHylde + ", reol " + nyReol);
-        gammelHylde.fjernFad(this);
-        this.placering = nyPlacering;
-        placering.getHylde().tilføjFad(this);
+        if (placering != null) {
+            Lager gammelLager = this.placering.getLager();
+            Reol gammelReol = this.placering.getReol();
+            Hylde gammelHylde = this.placering.getHylde();
+            Lager nytLager = nyPlacering.getLager();
+            Reol nyReol = nyPlacering.getReol();
+            Hylde nyHylde = nyPlacering.getHylde();
+            registrerHændelse("Flytning", "Fad er blevet flyttet fra " + gammelLager
+                    + ", reol ID: " + gammelReol + " og hylde ID: " + gammelHylde +
+                    ", til " + nytLager + ", hylde ID: " + nyHylde + ", reol ID: " + nyReol);
+            gammelHylde.fjernFad(this);
+            nyHylde.tilføjFad(this);
+            this.placering = nyPlacering;
+        } else {
+            Lager nytLager = nyPlacering.getLager();
+            Reol nyReol = nyPlacering.getReol();
+            Hylde nyHylde = nyPlacering.getHylde();
+            registrerHændelse("Registrering i lageret", "Fad er blevet lagret i " + nytLager +
+                    ", reol ID: " + nyReol + ", hylde ID: " + nyHylde);
+            nyHylde.tilføjFad(this);
+            this.placering = nyPlacering;
+        }
     }
 
     private Historik registrerHændelse(String type, String beskrivelse) {
