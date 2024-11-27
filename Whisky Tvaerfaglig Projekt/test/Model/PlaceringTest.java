@@ -18,7 +18,6 @@ class PlaceringTest {
 
     @BeforeEach
     void setUp() {
-        // Opret mock-data til Lager, Reol og Hylde
         lager = new Lager(1, "Lager 1");
         reol = new Reol("101");
         hylde = new Hylde("201", 10);
