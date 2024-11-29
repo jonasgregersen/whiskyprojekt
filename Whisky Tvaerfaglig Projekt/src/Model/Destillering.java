@@ -1,5 +1,6 @@
 package Model;
 
+import javax.swing.event.MenuKeyEvent;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -70,6 +71,9 @@ public class Destillering {
         for (Historik h : historik) {
             h.udskriv();
         }
+    }
+    public boolean erKlarTilLagring() {
+        return slutDato != null;
     }
     public ArrayList<Fad> getTilførteFad() {
         return new ArrayList<>(fade);
