@@ -63,7 +63,18 @@ public class Destillering {
         return spiritBatch;
     }
 
-    public void afslut() {
+    private void afslut() {
         slutDato = LocalDate.now();
+    }
+    public void udskrivHistorik() {
+        for (Historik h : historik) {
+            h.udskriv();
+        }
+    }
+    public ArrayList<Fad> getTilførteFad() {
+        return new ArrayList<>(fade);
+    }
+    public ArrayList<Historik> getHistorik() {
+        return new ArrayList<>(historik);
     }
 }

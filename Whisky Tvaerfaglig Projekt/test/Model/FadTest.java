@@ -84,7 +84,7 @@ class FadTest {
         Placering nyPlacering = new Placering(nytLager, nyReol, nyHylde);
 
         fad.setPlacering(placering);
-        assertEquals(fad, hylde.getFade().get(0), "Fadet skal være på ");
+        assertEquals(fad, hylde.getFade().get(0), "Test for fadet er registreret i orginal placing.");
 
         fad.setPlacering(nyPlacering);
 

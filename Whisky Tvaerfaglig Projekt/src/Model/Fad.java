@@ -54,6 +54,9 @@ public class Fad {
         if (nuværendeIndhold - mængde < 0) {
             throw new IllegalArgumentException("Tapmængden er større end fadets indhold.");
         }
+        if (nuværendeIndhold == 0) {
+            throw new IllegalArgumentException("Fadet er tomt.");
+        }
         //if (!klarTilTapning()) { // Fadet skal være lagret i mindst 3 år.
         //    throw new IllegalArgumentException("Fadet er ikke klar til tapning.");
         //}
@@ -103,6 +106,7 @@ public class Fad {
                     ", reol ID: " + nyReol + ", hylde ID: " + nyHylde);
             nyHylde.tilføjFad(this);
             this.placering = nyPlacering;
+
         }
     }
 
@@ -110,6 +114,7 @@ public class Fad {
         Historik hændelse = new Historik();
         hændelse.registrerHændelse(type, beskrivelse);
         historik.add(hændelse);
+        hændelse.udskriv();
         return hændelse;
     }
 
@@ -132,7 +137,7 @@ public class Fad {
 
     public void udskrivHistorik() {
         for (Historik h : historik) {
-            System.out.println(h.udskriv());
+            h.udskriv();
         }
     }
 

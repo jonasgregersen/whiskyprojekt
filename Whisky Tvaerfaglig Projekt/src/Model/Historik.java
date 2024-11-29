@@ -24,7 +24,10 @@ public class Historik {
         this.type = type;
     }
 
-    public String udskriv() {
+    public String toString() {
         return dato.toString() + " " + tid.toString().substring(0, 8) + " - " + type + ": " + beskrivelse;
+    }
+    public void udskriv() {
+        System.out.println(toString());
     }
 }
