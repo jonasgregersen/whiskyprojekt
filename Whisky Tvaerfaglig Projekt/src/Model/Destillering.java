@@ -48,7 +48,7 @@ public class Destillering {
             throw new IllegalArgumentException("Fadet skal angives");
         }
         this.mængde -= mængde;
-        fad.påfyld(this, mængde, this.alkoholProcent);
+        fad.påfyld(this, mængde);
         fade.add(fad);
         registrerHændelse("Tilførelse", "BatchNr. " + spiritBatch + " påfyldt fadNr. " + fad.getFadNr() + " " + mængde + " liter.");
     }
@@ -78,6 +78,15 @@ public class Destillering {
     public ArrayList<Fad> getTilførteFad() {
         return new ArrayList<>(fade);
     }
+
+    public double getAlkoholProcent() {
+        return alkoholProcent;
+    }
+
+    public double getMængde() {
+        return mængde;
+    }
+
     public ArrayList<Historik> getHistorik() {
         return new ArrayList<>(historik);
     }

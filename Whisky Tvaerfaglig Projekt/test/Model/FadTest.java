@@ -42,7 +42,7 @@ class FadTest {
         Controller.tilførDestilleringTilFad(destillering, fad, 150);
 
         assertEquals(150.0, fad.getNuværendeIndhold(), "Indholdet i fadet skal være 150 liter.");
-        assertEquals(65.0, fad.getAlkoholProcent(), "Alkoholprocenten skal være 65%.");
+        assertEquals(65.0, fad.beregnAlkoholProcent(), "Alkoholprocenten skal være 65%.");
         assertNotNull(fad.getHistorik(), "Historik skal indeholde en ny hændelse.");
     }
 
@@ -127,5 +127,20 @@ class FadTest {
         assertEquals(60.0, fad1.getDestillater().get(destillering1), "Batch A's resterende mængde skal være 60 liter.");
         assertEquals(40.0, fad1.getDestillater().get(destillering2), "Batch B's resterende mængde skal være 40 liter.");
         assertEquals(100.0, fad1.getNuværendeIndhold(), "Fadets samlede indhold skal være 100 liter.");
+    }
+    @Test
+    void testBeregnAlkoholProcent() {
+        Destillering destillering1 = new Destillering(LocalDate.of(2019, 8, 13), "Batch A");
+        Destillering destillering2 = new Destillering(LocalDate.of(2016, 6, 9), "Batch B");
+
+        destillering1.registrerDestilleringsData(65, 100);
+        destillering2.registrerDestilleringsData(70, 100);
+        destillering1.tilførFad(fad, 100);
+        destillering2.tilførFad(fad, 100);
+
+        double expected = 67.5;
+        double actual = fad.beregnAlkoholProcent();
+
+        assertEquals(expected, actual, "Alkoholprocenten i blandingen skal være 67.5 procent.");
     }
 }

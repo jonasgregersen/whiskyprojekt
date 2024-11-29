@@ -7,11 +7,13 @@ public class Lager {
     private int id;
     private String navn;
     private List<Reol> reoler;
+    private List<Råvare> råvarer;
 
     public Lager(int id, String navn) {
         this.navn = navn;
         this.id = id;
         reoler = new ArrayList<>();
+        råvarer = new ArrayList<>();
     }
 
     public Reol findReol(String reolId) {
@@ -29,5 +31,8 @@ public class Lager {
     }
     public String toString() {
         return "Lager ID: " + id + ", Navn: " + navn;
+    }
+    public void indkøbRåvarer(){
+
     }
 }

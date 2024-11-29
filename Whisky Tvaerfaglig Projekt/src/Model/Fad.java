@@ -13,7 +13,6 @@ public class Fad {
     private Placering placering;
     private LocalDate datoPåfyldning;
     private double nuværendeIndhold;
-    private double alkoholProcent;
     private String indkøbtFra;
     private Map<Destillering, Double> destillater = new HashMap<>();
     private List<Historik> historik;
@@ -31,11 +30,11 @@ public class Fad {
         this.nuværendeIndhold = 0.0;
     }
 
-    public void påfyld(Destillering destillat, double mængde, double alkoholProcent) throws IllegalArgumentException {
+    public void påfyld(Destillering destillat, double mængde) throws IllegalArgumentException {
         if (mængde + nuværendeIndhold > kapacitet) {
             throw new IllegalArgumentException("Fadet kan ikke rumme mere.");
         }
-        if (alkoholProcent < 0 || alkoholProcent > 100) {
+        if (destillat.getAlkoholProcent() < 0 || destillat.getAlkoholProcent() > 100) {
             throw new IllegalArgumentException("Alkoholprocenten skal ligge imellem 0 og 100.");
         }
         if (destillat == null) {
@@ -44,10 +43,9 @@ public class Fad {
         destillater.put(destillat, mængde);
         placering.getHylde().tilføjFad(this);
         this.nuværendeIndhold += mængde;
-        this.alkoholProcent = alkoholProcent;
         datoPåfyldning = LocalDate.now();
         registrerHændelse("Påfyldning", "Fad nr. " + fadNr + " er blevet påfyldt med " + mængde + " liter" +
-                " fra spirit batch: " + destillat.getSpiritBatch() + ", med alkoholprocent på " + alkoholProcent + "%. Nuværende indhold: " + nuværendeIndhold + " liter.");
+                " fra spirit batch: " + destillat.getSpiritBatch() + ", med alkoholprocent på " + destillat.getAlkoholProcent() + "%. Nuværende indhold: " + nuværendeIndhold + " liter.");
     }
 
     public HashMap<Destillering, Double> tap(double mængde) throws IllegalArgumentException {
@@ -109,6 +107,17 @@ public class Fad {
 
         }
     }
+    public double beregnAlkoholProcent() {
+        double beregnetAlkoholProcent = 0;
+        double totalAlkoholVolumen = 0;
+        for (Map.Entry<Destillering, Double> entry : destillater.entrySet()) {
+            double totalMængde = entry.getValue();
+            double alkoholVolumen = entry.getKey().getAlkoholProcent() / 100;
+            totalAlkoholVolumen += totalMængde * alkoholVolumen;
+        }
+        beregnetAlkoholProcent = (totalAlkoholVolumen / nuværendeIndhold) * 100;
+        return beregnetAlkoholProcent;
+    }
 
     private Historik registrerHændelse(String type, String beskrivelse) {
         Historik hændelse = new Historik();
@@ -162,10 +171,6 @@ public class Fad {
 
     public double getKapacitet() {
         return kapacitet;
-    }
-
-    public double getAlkoholProcent() {
-        return alkoholProcent;
     }
 
     public Placering getPlacering() {
