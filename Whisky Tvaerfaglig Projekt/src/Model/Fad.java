@@ -137,7 +137,7 @@ public class Fad {
 
     public void udskrivHistorik() {
         for (Historik h : historik) {
-            System.out.println(h.udskriv());
+            h.udskriv();
         }
     }
 
