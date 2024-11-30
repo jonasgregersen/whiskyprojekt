@@ -41,11 +41,11 @@ public class Fad {
             throw new IllegalArgumentException("Spiritbatch skal specificeres.");
         }
         destillater.put(destillat, mængde);
-        placering.getHylde().tilføjFad(this);
         this.nuværendeIndhold += mængde;
         datoPåfyldning = LocalDate.now();
-        registrerHændelse("Påfyldning", "Fad nr. " + fadNr + " er blevet påfyldt med " + mængde + " liter" +
-                " fra spirit batch: " + destillat.getSpiritBatch() + ", med alkoholprocent på " + destillat.getAlkoholProcent() + "%. Nuværende indhold: " + nuværendeIndhold + " liter.");
+        registrerHændelse("Påfyldning", "Fad nr. " + fadNr + " påfyldt " + mængde + " liter" +
+                " fra spirit batch: " + destillat.getSpiritBatch() + ", med alkoholprocent: " + destillat.getAlkoholProcent() +
+                "%. Nuværende indhold: " + nuværendeIndhold + " liter, nuværende alkohol procent: " + beregnAlkoholProcent() + "%.");
     }
 
     public HashMap<Destillering, Double> tap(double mængde) throws IllegalArgumentException {
@@ -59,10 +59,9 @@ public class Fad {
         //    throw new IllegalArgumentException("Fadet er ikke klar til tapning.");
         //}
         double tapMængde = 0;
-        HashMap<Destillering, Double> tapningPrDestillat = new HashMap<>();
+        HashMap<Destillering, Double> tapningPrDestillat = beregnTapningPrDestillat(mængde);
         for (Map.Entry<Destillering, Double> d : destillater.entrySet()) {
             tapMængde = (d.getValue() / nuværendeIndhold) * mængde;
-            tapningPrDestillat.put(d.getKey(), tapMængde);
             destillater.put(d.getKey(), d.getValue() - tapMængde);
         }
         nuværendeIndhold -= mængde;
@@ -70,7 +69,8 @@ public class Fad {
                 ". Nuværende indhold: " + nuværendeIndhold + " liter.");
         return tapningPrDestillat;
     }
-    public HashMap<Destillering, Double> beregnTapningPrDestillat(double mængde) {
+
+    private HashMap<Destillering, Double> beregnTapningPrDestillat(double mængde) {
         double tapMængde = 0;
         HashMap<Destillering, Double> tapningPrDestillat = new HashMap<>();
         for (Map.Entry<Destillering, Double> d : destillater.entrySet()) {
@@ -79,17 +79,18 @@ public class Fad {
         }
         return tapningPrDestillat;
     }
+
     public void setPlacering(Placering nyPlacering) throws IllegalArgumentException {
         if (nyPlacering.getHylde().vedMaksKapacitet()) {
             throw new IllegalArgumentException("Hylde er ved maks kapacitet.");
         }
+        Lager nytLager = nyPlacering.getLager();
+        Reol nyReol = nyPlacering.getReol();
+        Hylde nyHylde = nyPlacering.getHylde();
         if (placering != null) {
             Lager gammelLager = this.placering.getLager();
             Reol gammelReol = this.placering.getReol();
             Hylde gammelHylde = this.placering.getHylde();
-            Lager nytLager = nyPlacering.getLager();
-            Reol nyReol = nyPlacering.getReol();
-            Hylde nyHylde = nyPlacering.getHylde();
             registrerHændelse("Flytning", "Fad er blevet flyttet fra " + gammelLager
                     + ", reol ID: " + gammelReol + " og hylde ID: " + gammelHylde +
                     ", til " + nytLager + ", hylde ID: " + nyHylde + ", reol ID: " + nyReol);
@@ -97,9 +98,6 @@ public class Fad {
             nyHylde.tilføjFad(this);
             this.placering = nyPlacering;
         } else {
-            Lager nytLager = nyPlacering.getLager();
-            Reol nyReol = nyPlacering.getReol();
-            Hylde nyHylde = nyPlacering.getHylde();
             registrerHændelse("Registrering i lageret", "Fad er blevet lagret i " + nytLager +
                     ", reol ID: " + nyReol + ", hylde ID: " + nyHylde);
             nyHylde.tilføjFad(this);
@@ -107,23 +105,44 @@ public class Fad {
 
         }
     }
-    public double beregnAlkoholProcent() {
+
+    public double beregnAlkoholProcent() throws IllegalStateException {
+        if (nuværendeIndhold == 0) {
+            throw new IllegalStateException("Fadet er tomt.");
+        }
+        if (destillater.isEmpty()) {
+            throw new IllegalStateException("Fadet indeholder ingen destillater.");
+        }
         double beregnetAlkoholProcent = 0;
         double totalAlkoholVolumen = 0;
         for (Map.Entry<Destillering, Double> entry : destillater.entrySet()) {
-            double totalMængde = entry.getValue();
-            double alkoholVolumen = entry.getKey().getAlkoholProcent() / 100;
-            totalAlkoholVolumen += totalMængde * alkoholVolumen;
+            double destillatMængde = entry.getValue();
+            double destillatAlkoholProcent = entry.getKey().getAlkoholProcent() / 100;
+            totalAlkoholVolumen += destillatMængde * destillatAlkoholProcent;
         }
         beregnetAlkoholProcent = (totalAlkoholVolumen / nuværendeIndhold) * 100;
         return beregnetAlkoholProcent;
+    }
+
+    public void fjernDestillering(Destillering destillering) {
+        double destilleringIndhold = destillater.get(destillering);
+        nuværendeIndhold -= destilleringIndhold;
+        destillater.remove(destillering);
+        destillering.fjernFad(this);
+        registrerHændelse("Fjern destillering", destillering.getSpiritBatch() + " fjernet fra fad nr. " + fadNr + " (" + destilleringIndhold + " liter).");
+    }
+
+    public void tømFad() {
+        nuværendeIndhold = 0;
+        destillater.forEach((destillering, mængde) -> destillering.fjernFad(this));
+        destillater.clear();
+        registrerHændelse("Tøm fad", "Fad nr. " + fadNr + " er blevet tømt.");
     }
 
     private Historik registrerHændelse(String type, String beskrivelse) {
         Historik hændelse = new Historik();
         hændelse.registrerHændelse(type, beskrivelse);
         historik.add(hændelse);
-        hændelse.udskriv();
         return hændelse;
     }
 
@@ -157,6 +176,7 @@ public class Fad {
     public void setDatoPåfyldning(LocalDate dato) {
         this.datoPåfyldning = dato;
     }
+
     public HashMap<Destillering, Double> getDestillater() {
         return new HashMap<>(destillater);
     }

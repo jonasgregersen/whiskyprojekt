@@ -1,19 +1,22 @@
 package Model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import Model.Råvare;
 
 public class Lager {
     private int id;
     private String navn;
     private List<Reol> reoler;
-    private List<Råvare> råvarer;
+    private Map<Råvare, Double> råvarer;
 
     public Lager(int id, String navn) {
         this.navn = navn;
         this.id = id;
         reoler = new ArrayList<>();
-        råvarer = new ArrayList<>();
+        råvarer = new HashMap<>();
     }
 
     public Reol findReol(String reolId) {
@@ -29,10 +32,36 @@ public class Lager {
         reoler.add(reol);
         return reol;
     }
+    public boolean kornSortPaaLager(Råvare.KornSort kornSort) {
+        for (Map.Entry<Råvare, Double> entry : råvarer.entrySet()) {
+            if (entry.getKey().getKornSort() == kornSort) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public void forbrugRåvare(Råvare råvare, double mængde) throws IllegalArgumentException {
+        double gammelMængde = råvarer.get(råvare);
+        if (gammelMængde - mængde < 0) {
+            throw new IllegalArgumentException("Der er ikke nok råvarer til dette forbrug.");
+        }
+        råvarer.put(råvare, gammelMængde - mængde);
+    }
     public String toString() {
         return "Lager ID: " + id + ", Navn: " + navn;
     }
-    public void indkøbRåvarer(){
-
+    public void tilføjRåvare(Råvare råvare, double mængde) {
+        råvarer.put(råvare, mængde);
+    }
+    public Råvare findRåvare(String maltBatch) {
+        for (Map.Entry<Råvare, Double> entry : råvarer.entrySet()) {
+            if (entry.getKey().getMaltBatch().equals(maltBatch)) {
+                return entry.getKey();
+            }
+        }
+        return null;
+    }
+    public double mængdePåBatch(String maltBatch) {
+        return råvarer.get(findRåvare(maltBatch));
     }
 }

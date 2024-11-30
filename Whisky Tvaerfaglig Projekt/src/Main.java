@@ -6,8 +6,8 @@ public class Main {
         Hylde h1 = new Hylde("H1", 4);
         Reol r1 = new Reol("R1");
         Placering p = new Placering(lager1, r1, h1);
-        Destillering d1 = new Destillering(null, "NWB123");
-        Destillering d2 = new Destillering(null, "NWB 124");
+        Destillering d1 = new Destillering(null, null, "NWB123");
+        Destillering d2 = new Destillering(null, null, "NWB 124");
         Fad fad = new Fad(1, Fad.FadType.SHERRY, 200, "Tyskland");
         fad.setPlacering(p);
         d1.registrerDestilleringsData(70, 150);

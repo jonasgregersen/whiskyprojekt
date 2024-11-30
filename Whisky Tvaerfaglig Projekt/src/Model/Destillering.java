@@ -6,24 +6,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Destillering {
-    private int destilleringId;
     private LocalDate startDato;
     private LocalDate slutDato;
     private double alkoholProcent;
     private String spiritBatch;
     private double mængde;
-    private static int id = 0;
     private List<Fad> fade;
     private List<Historik> historik;
+    private String maltBatch;
 
 
-    public Destillering(LocalDate startDato, String spiritBatch) {
-        this.startDato = startDato;
+    public Destillering(LocalDate startDato, LocalDate slutDato, String spiritBatch) {
         this.spiritBatch = spiritBatch;
-        destilleringId = id;
         historik = new ArrayList<>();
         this.fade = new ArrayList<>();
-        id++;
+        this.startDato = startDato;
+        this.slutDato = slutDato;
     }
 
     public void registrerDestilleringsData(double alkoholProcent, double mængde) throws IllegalArgumentException {
@@ -32,9 +30,7 @@ public class Destillering {
         }
         this.alkoholProcent = alkoholProcent;
         this.mængde = mængde;
-        afslut();
-        registrerHændelse("Dataregistrering", "Destillering afsluttet d." + slutDato.getDayOfMonth() + "/" + slutDato.getDayOfMonth() +
-                "/" + slutDato.getYear() + ". Alkohol procent: " + alkoholProcent + ", mængde : " + mængde);
+        registrerHændelse("Dataregistrering", "Destillering afsluttet. Alkohol procent: " + alkoholProcent + ", mængde : " + mængde);
     }
 
     public void tilførFad(Fad fad, double mængde) throws IllegalArgumentException {
@@ -60,21 +56,23 @@ public class Destillering {
         return hændelse;
     }
 
+    public void tilføjRåvare(Lager lager, Råvare råvare, double mængde) {
+        lager.forbrugRåvare(råvare, mængde);
+        maltBatch = råvare.getMaltBatch();
+    }
+    public void fjernFad(Fad fad) {
+        fade.remove(fad);
+    }
     public String getSpiritBatch() {
         return spiritBatch;
     }
 
-    private void afslut() {
-        slutDato = LocalDate.now();
-    }
     public void udskrivHistorik() {
         for (Historik h : historik) {
             h.udskriv();
         }
     }
-    public boolean erKlarTilLagring() {
-        return slutDato != null;
-    }
+
     public ArrayList<Fad> getTilførteFad() {
         return new ArrayList<>(fade);
     }
@@ -89,5 +87,9 @@ public class Destillering {
 
     public ArrayList<Historik> getHistorik() {
         return new ArrayList<>(historik);
+    }
+
+    public String getMaltBatch() {
+        return maltBatch;
     }
 }

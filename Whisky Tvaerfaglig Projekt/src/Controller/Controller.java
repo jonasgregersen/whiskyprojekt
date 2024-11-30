@@ -17,8 +17,8 @@ public class Controller {
         Storage.addLager(lager);
         return lager;
     }
-    public static Destillering opretDestillering(LocalDate dato, String batch) {
-        Destillering destillering = new Destillering(dato, batch);
+    public static Destillering opretDestillering(LocalDate startDato, LocalDate slutDato, String batch) {
+        Destillering destillering = new Destillering(startDato, slutDato, batch);
         Storage.addDestillat(destillering);
         return destillering;
     }

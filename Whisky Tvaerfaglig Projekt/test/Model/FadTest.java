@@ -30,10 +30,9 @@ class FadTest {
         reol = new Reol("101");
         hylde = new Hylde("201", 4);
         placering = new Placering(lager, reol, hylde);
-        destillering = new Destillering(LocalDate.of(2020,9,14), "BatchA");
+        destillering = new Destillering(LocalDate.of(2016, 6, 12), LocalDate.of(2020,9,14), "BatchA");
 
         fad = new Fad(1, Fad.FadType.BOURBON, 200.0, "Kentucky");
-        fad.setPlacering(placering);
     }
 
     @Test
@@ -108,11 +107,10 @@ class FadTest {
     }
     @Test
     void testBeregnDestilleringerVedTapning() {
-        Destillering destillering1 = new Destillering(LocalDate.of(2019, 8, 13), "Batch A");
-        Destillering destillering2 = new Destillering(LocalDate.of(2016, 6,9), "Batch B");
-
+        Destillering destillering1 = new Destillering(LocalDate.of(2016, 6, 12), LocalDate.of(2019, 8, 13), "Batch A");
+        Destillering destillering2 = new Destillering(LocalDate.of(2012, 6, 12), LocalDate.of(2016, 6,9), "Batch B");
         Fad fad1 = new Fad(1, Fad.FadType.BOURBON, 200.0, "Sall");
-        fad1.setPlacering(placering);
+
         destillering1.registrerDestilleringsData(65, 120);
         destillering2.registrerDestilleringsData(65, 80);
         Controller.tilførDestilleringTilFad(destillering1, fad1, 120);
@@ -130,17 +128,56 @@ class FadTest {
     }
     @Test
     void testBeregnAlkoholProcent() {
-        Destillering destillering1 = new Destillering(LocalDate.of(2019, 8, 13), "Batch A");
-        Destillering destillering2 = new Destillering(LocalDate.of(2016, 6, 9), "Batch B");
+        Destillering destillering1 = new Destillering(LocalDate.of(2016, 6, 12), LocalDate.of(2019, 8, 13), "Batch A");
+        Destillering destillering2 = new Destillering(LocalDate.of(2012, 6, 12), LocalDate.of(2016, 6, 9), "Batch B");
+        Destillering destillering3 = new Destillering(null, null, "Batch C");
+        Fad fad1 = new Fad(0, null, 300, null);
+
+        destillering1.registrerDestilleringsData(85, 100);
+        destillering2.registrerDestilleringsData(70, 100);
+        destillering3.registrerDestilleringsData(40, 100);
+        destillering1.tilførFad(fad1, 50);
+        destillering2.tilførFad(fad1, 100);
+        destillering3.tilførFad(fad1, 100);
+
+        double expected = 61;
+        double actual = fad1.beregnAlkoholProcent();
+
+        assertEquals(expected, actual, "Alkoholprocenten i blandingen skal være 61 procent.");
+    }
+    @Test
+    void fjernDestillering() {
+        Destillering destillering1 = new Destillering(null, null, "NMW123");
+        Destillering destillering2 = new Destillering(null, null, "NWM124");
+        Fad fad1 = new Fad(0, null, 200, null);
 
         destillering1.registrerDestilleringsData(65, 100);
         destillering2.registrerDestilleringsData(70, 100);
-        destillering1.tilførFad(fad, 100);
-        destillering2.tilførFad(fad, 100);
+        Controller.tilførDestilleringTilFad(destillering1, fad1, 100);
+        Controller.tilførDestilleringTilFad(destillering2, fad1, 100);
 
-        double expected = 67.5;
-        double actual = fad.beregnAlkoholProcent();
+        assertEquals(67.5, fad1.beregnAlkoholProcent());
+        assertEquals(200, fad1.getNuværendeIndhold());
 
-        assertEquals(expected, actual, "Alkoholprocenten i blandingen skal være 67.5 procent.");
+        fad1.fjernDestillering(destillering1);
+
+        assertEquals(70, fad1.beregnAlkoholProcent());
+        assertEquals(100, fad1.getNuværendeIndhold());
+    }
+    @Test
+    void tømFad() {
+        Destillering destillering1 = new Destillering(null, null, "NWM123");
+        destillering1.registrerDestilleringsData(65, 200);
+        destillering1.tilførFad(fad, 200);
+
+        assertFalse(destillering1.getTilførteFad().isEmpty(), "Destilleringen skal have 1 fad i deres tilførte fad liste.");
+        assertFalse(fad.getDestillater().isEmpty(), "Fadet skal indeholde 1 destillat.");
+        assertEquals(200, fad.getNuværendeIndhold());
+
+        fad.tømFad();
+
+        assertTrue(destillering1.getTilførteFad().isEmpty(), "Listen over fad tilført skal være tom.");
+        assertTrue(fad.getDestillater().isEmpty(), "Fadet skal være tom for destillater.");
+        assertEquals(0, fad.getNuværendeIndhold());
     }
 }
