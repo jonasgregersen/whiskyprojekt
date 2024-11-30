@@ -124,7 +124,10 @@ public class Fad {
         return beregnetAlkoholProcent;
     }
 
-    public void fjernDestillering(Destillering destillering) {
+    public void fjernDestillering(Destillering destillering) throws IllegalArgumentException {
+        if (!destillater.containsKey(destillering)){
+            throw new IllegalArgumentException("Destillering findes ikke i fadet.");
+        }
         double destilleringIndhold = destillater.get(destillering);
         nuværendeIndhold -= destilleringIndhold;
         destillater.remove(destillering);

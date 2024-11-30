@@ -59,9 +59,13 @@ public class Destillering {
     public void tilføjRåvare(Lager lager, Råvare råvare, double mængde) {
         lager.forbrugRåvare(råvare, mængde);
         maltBatch = råvare.getMaltBatch();
+        registrerHændelse("Tilføjelse af råvare", maltBatch +
+                " er blevet tilføjet til spirit batch: " + spiritBatch);
     }
     public void fjernFad(Fad fad) {
         fade.remove(fad);
+        registrerHændelse("Fjernelse af fad", "Fad nr. " + fad.getFadNr() +
+                " fjernet fra spirit batch: " + spiritBatch);
     }
     public String getSpiritBatch() {
         return spiritBatch;
