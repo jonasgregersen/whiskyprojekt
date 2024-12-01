@@ -1,8 +1,6 @@
 package GUI;
 
-import Controller.Controller;
 import Model.Fad;
-import javafx.collections.FXCollections;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -14,9 +12,6 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-
-import java.util.Arrays;
-import java.util.List;
 
 public class FadWindow extends Stage {
     private Fad fad;
@@ -72,10 +67,10 @@ public class FadWindow extends Stage {
         cmbxFadType.getItems().setAll(Fad.FadType.values());
 
         Label lblIndkøbt = new Label("Indkøbt");
-        pane.add(lblIndkøbt, 1, 2);
+        pane.add(lblIndkøbt, 1, 3);
 
         txfIndkøbt = new TextField();
-        pane.add(txfIndkøbt,1,3);
+        pane.add(txfIndkøbt,1,4);
 
 
         Button btnCancel = new Button("Cancel");
