@@ -23,9 +23,9 @@ public class Placering {
         return hylde;
     }
     public String toString() {
-        return "Placering: Lager [" + lager +
-                "], Reol [" + reol +
-                "], Hylde [" + hylde +
+        return "Lager [" + lager +
+                "]\nReol [" + reol +
+                "]\nHylde [" + hylde +
                 "]";
     }
 }

@@ -162,6 +162,7 @@ public class Fad {
                 "\nFad type: " + fadType +
                 "\nKapacitet: " + kapacitet +
                 "\nNuværende indhold: " + nuværendeIndhold +
+                "\nAlkohol procent: " + beregnAlkoholProcent() +
                 "\nPlacering: " + placering +
                 "\nIndkøbt fra: " + indkøbtFra;
     }
@@ -185,7 +186,7 @@ public class Fad {
     }
 
     public String toString() {
-        return "FadNr: " + fadNr + ", af type: " + fadType.toString() + ", " + placering;
+        return "FadNr: " + fadNr + ", af type: " + fadType.toString() + ", " + kapacitet + " liter";
     }
 
     public double getNuværendeIndhold() {
@@ -198,5 +199,11 @@ public class Fad {
 
     public Placering getPlacering() {
         return placering;
+    }
+    public LocalDate getDatoPåfyldning() {
+        return datoPåfyldning;
+    }
+    public FadType getFadType() {
+        return fadType;
     }
 }
