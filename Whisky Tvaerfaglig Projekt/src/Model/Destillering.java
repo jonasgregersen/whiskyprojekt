@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Destillering {
+public class Destillering implements Historikable{
     private LocalDate startDato;
     private LocalDate slutDato;
     private double alkoholProcent;
@@ -14,6 +14,7 @@ public class Destillering {
     private List<Fad> fade;
     private List<Historik> historik;
     private String maltBatch;
+    private Råvare råvare;
 
 
     public Destillering(LocalDate startDato, LocalDate slutDato, String spiritBatch) {
@@ -49,19 +50,23 @@ public class Destillering {
         registrerHændelse("Tilførelse", "BatchNr. " + spiritBatch + " påfyldt fadNr. " + fad.getFadNr() + " " + mængde + " liter.");
     }
 
-    private Historik registrerHændelse(String type, String beskrivelse) {
+    public void registrerHændelse(String type, String beskrivelse) {
         Historik hændelse = new Historik();
         hændelse.registrerHændelse(type, beskrivelse);
         historik.add(hændelse);
-        return hændelse;
     }
 
     public void tilføjRåvare(Lager lager, Råvare råvare, double mængde) {
         lager.forbrugRåvare(råvare, mængde);
-        maltBatch = råvare.getMaltBatch();
+        råvare = råvare;
         registrerHændelse("Tilføjelse af råvare", maltBatch +
                 " er blevet tilføjet til spirit batch: " + spiritBatch);
     }
+
+    public Råvare getRåvare() {
+        return råvare;
+    }
+
     public void fjernFad(Fad fad) {
         fade.remove(fad);
         registrerHændelse("Fjernelse af fad", "Fad nr. " + fad.getFadNr() +
@@ -95,5 +100,8 @@ public class Destillering {
 
     public String getMaltBatch() {
         return maltBatch;
+    }
+    public String toString() {
+        return spiritBatch;
     }
 }

@@ -102,6 +102,10 @@ public class FadPane extends GridPane {
         Button btnDelete = new Button("Fjern fad");
         hbxButtons.getChildren().add(btnDelete);
 
+        Button btnHistorik = new Button("Se historik");
+        this.add(btnHistorik, 0, 4);
+        btnHistorik.setOnAction(event -> this.seFadHistorikAction());
+
 
         if (lvwFad.getItems().size() > 0) {
             lvwFad.getSelectionModel().select(0);
@@ -139,6 +143,11 @@ public class FadPane extends GridPane {
         lvwFad.getItems().setAll(Storage.getFade());
         int index = lvwFad.getItems().size() - 1;
         lvwFad.getSelectionModel().select(index);
+    }
+    private void seFadHistorikAction() {
+        Fad fad = lvwFad.getSelectionModel().getSelectedItem();
+        HistorikWindow dia = new HistorikWindow("Fad nr. " + fad.getFadNr() + " historik", fad);
+        dia.showAndWait();
     }
     // ------------------------------------------------------------------------
 

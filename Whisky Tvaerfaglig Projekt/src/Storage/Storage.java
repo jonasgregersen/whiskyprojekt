@@ -4,9 +4,9 @@ import Model.*;
 import java.util.ArrayList;
 
 public class Storage {
-    private static ArrayList<Fad> fade = new ArrayList<>();
-    private static ArrayList<Lager> lagre = new ArrayList<>();
-    private static ArrayList<Destillering> destillater = new ArrayList<>();
+    private final static ArrayList<Fad> fade = new ArrayList<>();
+    private final static ArrayList<Lager> lagre = new ArrayList<>();
+    private final static ArrayList<Destillering> destillater = new ArrayList<>();
     public static void addFad(Fad fad) {
         if (!fade.contains(fad)) {
             fade.add(fad);
@@ -33,5 +33,11 @@ public class Storage {
         if (!destillater.contains(d)) {
             destillater.add(d);
         }
+    }
+    public static void removeDestillat(Destillering d) {
+        destillater.remove(d);
+    }
+    public static ArrayList<Destillering> getDestillater() {
+        return new ArrayList<>(destillater);
     }
 }

@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Fad {
+public class Fad implements Historikable {
     private int fadNr;
     private FadType fadType;
     private double kapacitet;
@@ -43,9 +43,9 @@ public class Fad {
         destillater.put(destillat, mængde);
         this.nuværendeIndhold += mængde;
         datoPåfyldning = LocalDate.now();
-        registrerHændelse("Påfyldning", "Fad nr. " + fadNr + " påfyldt " + mængde + " liter" +
-                " fra spirit batch: " + destillat.getSpiritBatch() + ", med alkoholprocent: " + destillat.getAlkoholProcent() +
-                "%. Nuværende indhold: " + nuværendeIndhold + " liter, nuværende alkohol procent: " + beregnAlkoholProcent() + "%.");
+        registrerHændelse("Påfyldning", "Fad nr. " + fadNr + " påfyldt " + mængde + " liter, " + destillat.getAlkoholProcent() +
+                "% fra spirit batch: " + destillat.getSpiritBatch() +
+                ". Nuværende indhold: " + nuværendeIndhold + " liter, nuværende alkohol procent: " + beregnAlkoholProcent() + "%.");
     }
 
     public HashMap<Destillering, Double> tap(double mængde) throws IllegalArgumentException {
@@ -142,11 +142,10 @@ public class Fad {
         registrerHændelse("Tøm fad", "Fad nr. " + fadNr + " er blevet tømt.");
     }
 
-    private Historik registrerHændelse(String type, String beskrivelse) {
+    public void registrerHændelse(String type, String beskrivelse) {
         Historik hændelse = new Historik();
         hændelse.registrerHændelse(type, beskrivelse);
         historik.add(hændelse);
-        return hændelse;
     }
 
     public int getFadNr() {
