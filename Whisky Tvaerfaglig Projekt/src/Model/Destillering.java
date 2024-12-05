@@ -58,7 +58,8 @@ public class Destillering implements Historikable{
 
     public void tilføjRåvare(Lager lager, Råvare råvare, double mængde) {
         lager.forbrugRåvare(råvare, mængde);
-        råvare = råvare;
+        this.råvare = råvare;
+        maltBatch = råvare.getMaltBatch();
         registrerHændelse("Tilføjelse af råvare", maltBatch +
                 " er blevet tilføjet til spirit batch: " + spiritBatch);
     }

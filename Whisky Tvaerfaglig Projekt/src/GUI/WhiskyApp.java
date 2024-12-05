@@ -31,6 +31,10 @@ public class WhiskyApp {
         Controller.tilførDestilleringTilFad(d1, fad3, 64);
         Controller.tilførDestilleringTilFad(d2, fad3, 30);
 
+        Råvare byg = new Råvare(Råvare.KornSort.EVERGREEN, "Batch001", 300);
+        sall.tilføjRåvare(byg, 300);
+        d1.tilføjRåvare(sall, byg, 100);
+
         fad1.setDatoPåfyldning(LocalDate.of(2019,5,2));
         fad2.setDatoPåfyldning(LocalDate.of(2021,5,21));
         fad3.setDatoPåfyldning(LocalDate.of(2023,7,19));
