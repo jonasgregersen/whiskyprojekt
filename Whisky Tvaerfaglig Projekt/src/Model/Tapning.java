@@ -14,6 +14,7 @@ public class Tapning {
         this.totalMængde = fortyndingsMængde;
         this.fortyndingsMængde = fortyndingsMængde;
         alkoholProcent = 0;
+        fadVæske = new HashMap<>();
     }
     public void tilføjFad(Fad fad, double mængde) {
         if (fad == null) {

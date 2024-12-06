@@ -1,12 +1,7 @@
 package Test;
 
 import Controller.Controller;
-import Model.Fad;
-import Model.Destillering;
-import Model.Placering;
-import Model.Hylde;
-import Model.Reol;
-import Model.Lager;
+import Model.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,6 +27,7 @@ class FadTest {
         placering = new Placering(lager, reol, hylde);
         destillering = new Destillering(LocalDate.of(2016, 6, 12), LocalDate.of(2020,9,14), "BatchA");
 
+
         fad = new Fad(1, Fad.FadType.BOURBON, 200.0, "Kentucky");
     }
 
@@ -56,20 +52,22 @@ class FadTest {
 
     @Test
     void testTap() {
+        Tapning tapning = new Tapning(0);
         destillering.registrerDestilleringsData(65,150);
         Controller.tilførDestilleringTilFad(destillering,fad,150);
         fad.setDatoPåfyldning(LocalDate.of(2020,9,14));
-        fad.tap(50.0);
+        fad.tap(tapning,50.0);
 
         assertEquals(100.0, fad.getNuværendeIndhold(), "Indholdet efter tapning skal være 100 liter.");
     }
 
     @Test
     void testTapForMeget() {
+        Tapning tapning = new Tapning(0);
         destillering.registrerDestilleringsData(65,150);
         Controller.tilførDestilleringTilFad(destillering,fad,150);
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            fad.tap(200.0);
+            fad.tap(tapning,200.0);
         });
         assertEquals("Tapmængden er større end fadets indhold.", exception.getMessage());
     }
@@ -110,15 +108,16 @@ class FadTest {
         Destillering destillering1 = new Destillering(LocalDate.of(2016, 6, 12), LocalDate.of(2019, 8, 13), "Batch A");
         Destillering destillering2 = new Destillering(LocalDate.of(2012, 6, 12), LocalDate.of(2016, 6,9), "Batch B");
         Fad fad1 = new Fad(1, Fad.FadType.BOURBON, 200.0, "Sall");
-
+        Tapning tapning = new Tapning(0);
         destillering1.registrerDestilleringsData(65, 120);
         destillering2.registrerDestilleringsData(65, 80);
         Controller.tilførDestilleringTilFad(destillering1, fad1, 120);
         Controller.tilførDestilleringTilFad(destillering2, fad1, 80);
+        fad1.setDatoPåfyldning(LocalDate.of(2019,5,1));
 
 
         double mængdeTappet = 100.0;
-        Map<Destillering, Double> tappetMængde = fad1.tap(mængdeTappet);
+        Map<Destillering, Double> tappetMængde = fad1.tap(tapning, mængdeTappet);
 
         assertEquals(60.0, tappetMængde.get(destillering1), "Batch A's tappede mængde skal være 60 liter.");
         assertEquals(40.0, tappetMængde.get(destillering2), "Batch B's tappede mængde skal være 40 liter.");
