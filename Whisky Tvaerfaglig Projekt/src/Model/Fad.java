@@ -24,6 +24,7 @@ public class Fad implements Historikable {
     public Fad(int fadNr, FadType fadType, double kapacitet, String indkøbt) {
         this.fadNr = fadNr;
         this.fadType = fadType;
+
         this.kapacitet = kapacitet;
         historik = new ArrayList<>();
         this.indkøbtFra = indkøbt;
@@ -154,22 +155,6 @@ public class Fad implements Historikable {
 
     public ArrayList<Historik> getHistorik() {
         return new ArrayList<>(historik);
-    }
-
-    public String udskrivFad() {
-        return "FadNr: " + fadNr +
-                "\nFad type: " + fadType +
-                "\nKapacitet: " + kapacitet +
-                "\nNuværende indhold: " + nuværendeIndhold +
-                "\nAlkohol procent: " + beregnAlkoholProcent() +
-                "\nPlacering: " + placering +
-                "\nIndkøbt fra: " + indkøbtFra;
-    }
-
-    public void udskrivHistorik() {
-        for (Historik h : historik) {
-            h.udskriv();
-        }
     }
 
     public boolean klarTilTapning() {

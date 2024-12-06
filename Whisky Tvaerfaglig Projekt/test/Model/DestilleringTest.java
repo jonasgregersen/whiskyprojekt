@@ -50,6 +50,7 @@ class DestilleringTest {
 
         assertEquals("Batch001", destillering.getMaltBatch());
         assertEquals(300, lager.mængdePåBatch("Batch001"));
+        assertEquals(200, destillering.getRåvareMængde());
 
         assertThrows(IllegalArgumentException.class, () -> destillering.tilføjRåvare(lager, råvare, 1000), "Beholdningen af råvaren overstiges.");
     }

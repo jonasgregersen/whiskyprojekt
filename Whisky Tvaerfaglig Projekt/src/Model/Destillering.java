@@ -15,6 +15,7 @@ public class Destillering implements Historikable{
     private List<Historik> historik;
     private String maltBatch;
     private Råvare råvare;
+    private double råvareMængde;
 
 
     public Destillering(LocalDate startDato, LocalDate slutDato, String spiritBatch) {
@@ -59,6 +60,7 @@ public class Destillering implements Historikable{
     public void tilføjRåvare(Lager lager, Råvare råvare, double mængde) {
         lager.forbrugRåvare(råvare, mængde);
         this.råvare = råvare;
+        råvareMængde = mængde;
         maltBatch = råvare.getMaltBatch();
         registrerHændelse("Tilføjelse af råvare", maltBatch +
                 " er blevet tilføjet til spirit batch: " + spiritBatch);
@@ -67,22 +69,19 @@ public class Destillering implements Historikable{
     public Råvare getRåvare() {
         return råvare;
     }
-
-    public void fjernFad(Fad fad) {
+    public double getRåvareMængde() {
+        return råvareMængde;
+    }
+    public Fad fjernFad(Fad fad) {
+        Fad fjernetFad = fad;
         fade.remove(fad);
         registrerHændelse("Fjernelse af fad", "Fad nr. " + fad.getFadNr() +
                 " fjernet fra spirit batch: " + spiritBatch);
+        return fjernetFad;
     }
     public String getSpiritBatch() {
         return spiritBatch;
     }
-
-    public void udskrivHistorik() {
-        for (Historik h : historik) {
-            h.udskriv();
-        }
-    }
-
     public ArrayList<Fad> getTilførteFad() {
         return new ArrayList<>(fade);
     }

@@ -1,28 +1,22 @@
 package Model;
 
+import java.util.HashMap;
+
 public class WhiskyProdukt {
     private int id;
     private String navn;
     private double alkoholProcent;
     private double batchNummer;
-    private double fortyndingsmængde;
+    private VæskeBlanding væskeBlanding;
 
-    public WhiskyProdukt(int id, String navn, double alkoholProcent, double batchNummer, double fortyndingsmængde) {
+
+    public WhiskyProdukt(int id, String navn, double batchNummer, VæskeBlanding væskeBlanding) {
         this.id = id;
         this.navn = navn;
-        this.alkoholProcent = alkoholProcent;
         this.batchNummer = batchNummer;
-        this.fortyndingsmængde = fortyndingsmængde;
+        this.væskeBlanding = væskeBlanding;
+        alkoholProcent = væskeBlanding.beregnAlkoholProcent();
     }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public String getNavn() {
         return navn;
     }
@@ -50,14 +44,6 @@ public class WhiskyProdukt {
         this.batchNummer = batchNummer;
     }
 
-    public double getFortyndingsmængde() {
-        return fortyndingsmængde;
-    }
-
-    public void setFortyndingsmængde(double fortyndingsmængde) {
-        this.fortyndingsmængde = fortyndingsmængde;
-    }
-
     @Override
     public String toString() {
         return "WhiskyProdukt{" +
@@ -65,7 +51,6 @@ public class WhiskyProdukt {
                 ", navn='" + navn + '\'' +
                 ", alkoholProcent=" + alkoholProcent +
                 ", batchNummer=" + batchNummer +
-                ", fortyndingsmængde=" + fortyndingsmængde +
                 '}';
     }
 }
