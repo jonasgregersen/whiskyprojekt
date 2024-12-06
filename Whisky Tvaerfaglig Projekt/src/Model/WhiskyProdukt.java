@@ -5,13 +5,13 @@ import java.util.HashMap;
 public class WhiskyProdukt {
     private String navn;
     private double alkoholProcent;
-    private double batchNummer;
+    private String produktBatch;
     private VæskeBlanding væskeBlanding;
 
 
-    public WhiskyProdukt(String navn, double batchNummer, VæskeBlanding væskeBlanding) {
+    public WhiskyProdukt(String navn, String produktBatch, VæskeBlanding væskeBlanding) {
         this.navn = navn;
-        this.batchNummer = batchNummer;
+        this.produktBatch = produktBatch;
         this.væskeBlanding = væskeBlanding;
         alkoholProcent = væskeBlanding.beregnAlkoholProcent();
     }
@@ -34,12 +34,12 @@ public class WhiskyProdukt {
             throw new IllegalArgumentException("Alkoholprocenten skal ligge imellem 0 og 100.");
         }   }
 
-    public double getBatchNummer() {
-        return batchNummer;
+    public String getProduktBatch() {
+        return produktBatch;
     }
 
-    public void setBatchNummer(double batchNummer) {
-        this.batchNummer = batchNummer;
+    public void setBatchNummer(String produktBatch) {
+        this.produktBatch = produktBatch;
     }
 
     @Override
@@ -47,7 +47,7 @@ public class WhiskyProdukt {
         return "WhiskyProdukt{" +
                 ", navn='" + navn + '\'' +
                 ", alkoholProcent=" + alkoholProcent +
-                ", batchNummer=" + batchNummer +
+                ", produktBatch=" + produktBatch +
                 '}';
     }
 }
