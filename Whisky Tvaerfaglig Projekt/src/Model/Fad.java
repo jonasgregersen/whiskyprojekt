@@ -49,16 +49,16 @@ public class Fad implements Historikable {
                 ". Nuværende indhold: " + nuværendeIndhold + " liter, nuværende alkohol procent: " + beregnAlkoholProcent() + "%.");
     }
 
-    public HashMap<Destillering, Double> tap(double mængde) throws IllegalArgumentException {
+    public HashMap<Destillering, Double> tap(Tapning tapning, double mængde) throws IllegalArgumentException {
         if (nuværendeIndhold - mængde < 0) {
             throw new IllegalArgumentException("Tapmængden er større end fadets indhold.");
         }
         if (nuværendeIndhold == 0) {
             throw new IllegalArgumentException("Fadet er tomt.");
         }
-        //if (!klarTilTapning()) { // Fadet skal være lagret i mindst 3 år.
-        //    throw new IllegalArgumentException("Fadet er ikke klar til tapning.");
-        //}
+        if (!klarTilTapning()) { // Fadet skal være lagret i mindst 3 år.
+            throw new IllegalArgumentException("Fadet er ikke klar til tapning.");
+        }
         double tapMængde = 0;
         HashMap<Destillering, Double> tapningPrDestillat = beregnTapningPrDestillat(mængde);
         for (Map.Entry<Destillering, Double> d : destillater.entrySet()) {
@@ -66,6 +66,7 @@ public class Fad implements Historikable {
             destillater.put(d.getKey(), d.getValue() - tapMængde);
         }
         nuværendeIndhold -= mængde;
+        tapning.tilføjFad(this, mængde);
         registrerHændelse("Tapning", "Fad nr. " + fadNr + " er blevet tappet for " + mængde + " liter" +
                 ". Nuværende indhold: " + nuværendeIndhold + " liter.");
         return tapningPrDestillat;

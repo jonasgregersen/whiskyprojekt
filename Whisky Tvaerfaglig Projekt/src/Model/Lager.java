@@ -11,6 +11,7 @@ public class Lager implements Historikable {
     private String navn;
     private List<Reol> reoler;
     private Map<Råvare, Double> råvarer;
+    private List<WhiskyProdukt> produkter;
     private ArrayList<Historik> historik;
 
     public Lager(int id, String navn) {

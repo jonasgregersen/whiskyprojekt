@@ -5,16 +5,12 @@ import java.time.LocalTime;
 import java.util.Date;
 
 public class Historik {
-    private int historikId;
     private String type;
-    private static int id;
     private String beskrivelse;
     private LocalDate dato;
     private LocalTime tid;
 
     public Historik() {
-        historikId = id;
-        id++;
         dato = LocalDate.now();
         tid = LocalTime.now();
     }
@@ -26,8 +22,5 @@ public class Historik {
 
     public String toString() {
         return dato.toString() + " " + tid.toString().substring(0, 8) + " - " + type + ": " + beskrivelse;
-    }
-    public void udskriv() {
-        System.out.println(toString());
     }
 }

@@ -28,9 +28,11 @@ public class Hylde implements Historikable{
         return new ArrayList<Fad>(fade);
     }
 
-    public void fjernFad(Fad fad) {
+    public Fad fjernFad(Fad fad) {
+        Fad fjernetFad = fad;
         fade.remove(fad);
         registrerHændelse("Fjernelse af fad", "Fad nr. " + fad.getFadNr() + " er fjernet fra hylden.");
+        return fjernetFad;
     }
 
     public String getHyldeId() {

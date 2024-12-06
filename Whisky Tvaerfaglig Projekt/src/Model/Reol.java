@@ -18,8 +18,10 @@ public class Reol {
         return hylde;
     }
 
-    public void fjernHylde(Hylde hylde) {
+    public Hylde fjernHylde(Hylde hylde) {
+        Hylde fjernetHylde = hylde;
         hylder.remove(hylde);
+        return fjernetHylde;
     }
 
     public List<Hylde> getHylder() {
