@@ -3,15 +3,13 @@ package Model;
 import java.util.HashMap;
 
 public class WhiskyProdukt {
-    private int id;
     private String navn;
     private double alkoholProcent;
     private double batchNummer;
     private VæskeBlanding væskeBlanding;
 
 
-    public WhiskyProdukt(int id, String navn, double batchNummer, VæskeBlanding væskeBlanding) {
-        this.id = id;
+    public WhiskyProdukt(String navn, double batchNummer, VæskeBlanding væskeBlanding) {
         this.navn = navn;
         this.batchNummer = batchNummer;
         this.væskeBlanding = væskeBlanding;
@@ -47,7 +45,6 @@ public class WhiskyProdukt {
     @Override
     public String toString() {
         return "WhiskyProdukt{" +
-                "id=" + id +
                 ", navn='" + navn + '\'' +
                 ", alkoholProcent=" + alkoholProcent +
                 ", batchNummer=" + batchNummer +
