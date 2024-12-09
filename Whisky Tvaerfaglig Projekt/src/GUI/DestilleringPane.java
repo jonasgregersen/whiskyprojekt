@@ -10,12 +10,13 @@ import javafx.geometry.VPos;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
-import java.util.Map;
+import java.util.List;
 
 public class DestilleringPane extends GridPane {
-    private TextField txfStartDato, txfIndhold, txfSlutDato, txfAlkoholProcent, txfMaltBatch;
-    private TextArea txaTilførteFad, txaCustms;
+    private TextField txfStartDato, txfSlutDato, txfMaltBatch, txfIndhold, txfAlkoholProcent;
+    private TextArea txaTilførteFad;
     private ListView<Destillering> lvwDestillering;
 
     public DestilleringPane() {
@@ -28,61 +29,53 @@ public class DestilleringPane extends GridPane {
         this.add(lblDestillering, 0, 0);
 
         lvwDestillering = new ListView<>();
-        this.add(lvwDestillering, 0, 1, 1, 3);
-        lvwDestillering.setPrefWidth(300);
-        lvwDestillering.setPrefHeight(200);
+        this.add(lvwDestillering, 0,1);
         lvwDestillering.getItems().setAll(Storage.getDestillater());
+        ChangeListener<Destillering> destilleringListener = (ov, oldDest, newDest) -> this.selectedDestilleringChanged();
+        lvwDestillering.getSelectionModel().selectedItemProperty().addListener(destilleringListener);
 
-        ChangeListener<Destillering> listener = (ov, oldDest, newDest) -> this.selectedDestilleringChanged();
-        lvwDestillering.getSelectionModel().selectedItemProperty().addListener(listener);
+        VBox vbxInfo = new VBox(40);
+        this.add(vbxInfo, 1,1);
 
+        HBox hbxStartDato = new HBox(40);
+        hbxStartDato.setPrefWidth(400);
         Label lblStartDato = new Label("Startdato:");
-        this.add(lblStartDato, 1, 1);
-
         txfStartDato = new TextField();
-        this.add(txfStartDato, 2, 1);
         txfStartDato.setEditable(false);
+        hbxStartDato.getChildren().addAll(lblStartDato,txfStartDato);
 
+        HBox hbxSlutDato = new HBox(40);
+        hbxSlutDato.setPrefWidth(400);
         Label lblSlutDato = new Label("Slutdato:");
-        this.add(lblSlutDato, 1, 2);
-
         txfSlutDato = new TextField();
-        this.add(txfSlutDato, 2, 2);
         txfSlutDato.setEditable(false);
+        hbxSlutDato.getChildren().addAll(lblSlutDato,txfSlutDato);
 
-        Label lblAlkoholProcent = new Label("Alkoholprocent:");
-        this.add(lblAlkoholProcent, 1, 3);
-
-        txfAlkoholProcent = new TextField();
-        this.add(txfAlkoholProcent, 2, 3);
-        txfAlkoholProcent.setEditable(false);
-
+        HBox hbxIndhold = new HBox(40);
         Label lblIndhold = new Label("Indhold i liter:");
-        this.add(lblIndhold, 1, 4);
-
         txfIndhold = new TextField();
-        this.add(txfIndhold, 2, 4);
         txfIndhold.setEditable(false);
+        hbxIndhold.getChildren().addAll(lblIndhold,txfIndhold);
 
+        HBox hbxMaltBatch = new HBox(40);
         Label lblMaltBatch = new Label("Maltbatch:");
-        this.add(lblMaltBatch, 1, 5);
-        GridPane.setValignment(lblMaltBatch, VPos.BASELINE);
-        lblMaltBatch.setPadding(new Insets(4, 0, 4, 0));
-
         txfMaltBatch = new TextField();
-        this.add(txfMaltBatch, 2, 5);
         txfMaltBatch.setEditable(false);
+        hbxMaltBatch.getChildren().addAll(lblMaltBatch,txfMaltBatch);
 
+        HBox hbxAlkoholProcent = new HBox(40);
+        Label lblAlkoholProcent = new Label("Alkoholprocent:");
+        txfAlkoholProcent = new TextField();
+        txfAlkoholProcent.setEditable(false);
+        hbxAlkoholProcent.getChildren().addAll(lblAlkoholProcent,txfAlkoholProcent);
+
+        HBox hbxTilførteFad = new HBox(40);
         Label lblTilførteFad = new Label("Tilførte fad:");
-        this.add(lblTilførteFad, 1, 6);
-        GridPane.setValignment(lblTilførteFad, VPos.BASELINE);
-        lblTilførteFad.setPadding(new Insets(4, 0, 4, 0));
-
         txaTilførteFad = new TextArea();
-        this.add(txaTilførteFad, 2, 6);
-        txaTilførteFad.setPrefWidth(300);
-        txaTilførteFad.setPrefHeight(100);
         txaTilførteFad.setEditable(false);
+        hbxTilførteFad.getChildren().addAll(lblTilførteFad,txaTilførteFad);
+
+        vbxInfo.getChildren().addAll(hbxStartDato,hbxSlutDato,hbxIndhold,hbxMaltBatch,hbxAlkoholProcent, hbxTilførteFad);
 
         HBox hbxButtons = new HBox(40);
         this.add(hbxButtons, 0, 7, 3, 1);
@@ -93,9 +86,9 @@ public class DestilleringPane extends GridPane {
         hbxButtons.getChildren().add(btnCreate);
         btnCreate.setOnAction(event -> this.createDestilleringAction());
 
-        Button btnUpdate = new Button("Opdater destillering");
+        Button btnUpdate = new Button("Registrer destillering");
         hbxButtons.getChildren().add(btnUpdate);
-
+        btnUpdate.setOnAction(event -> this.registrerDataAction());
 
         Button btnDelete = new Button("Fjern destillering");
         hbxButtons.getChildren().add(btnDelete);
@@ -124,6 +117,7 @@ public class DestilleringPane extends GridPane {
         Destillering destillering = lvwDestillering.getSelectionModel().getSelectedItem();
         PåfyldWindow dia = new PåfyldWindow("Påfyld fad", destillering);
         dia.showAndWait();
+        updateControls();
     }
 
     public void updateControls() {
@@ -131,7 +125,7 @@ public class DestilleringPane extends GridPane {
         txfStartDato.setText(destillering.getStartDato() == null ? "Ikke angivet" : destillering.getStartDato().toString());
         txfSlutDato.setText(destillering.getSlutDato() == null ? "Ikke angivet" : destillering.getSlutDato().toString());
         txfIndhold.setText(Double.toString(destillering.getMængde()));
-        txfMaltBatch.setText(destillering.getMaltBatch());
+        txfMaltBatch.setText(destillering.getMaltBatch() + " - " + destillering.getRåvareMængde());
         if (!destillering.getTilførteFad().isEmpty()) {
             StringBuilder sbDest = new StringBuilder();
             for (Fad fad : destillering.getTilførteFad()) {
@@ -146,7 +140,7 @@ public class DestilleringPane extends GridPane {
     }
 
     private void createDestilleringAction() {
-        DestilleringWindow dia = new DestilleringWindow("Opret Destillering");
+        OpretDestilleringWindow dia = new OpretDestilleringWindow("Opret Destillering");
         dia.showAndWait();
         updateControls();
 
@@ -158,6 +152,12 @@ public class DestilleringPane extends GridPane {
         Destillering destillering = lvwDestillering.getSelectionModel().getSelectedItem();
         HistorikWindow dia = new HistorikWindow("Fad nr. " + destillering.getSpiritBatch() + " historik", destillering);
         dia.showAndWait();
+    }
+    private void registrerDataAction() {
+        Destillering destillering = lvwDestillering.getSelectionModel().getSelectedItem();
+        RegistrerDestilleringWindow dia = new RegistrerDestilleringWindow("Registrer " + destillering.getSpiritBatch(), destillering);
+        dia.showAndWait();
+        updateControls();
     }
     // ------------------------------------------------------------------------
 

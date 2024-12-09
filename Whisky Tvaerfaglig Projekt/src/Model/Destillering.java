@@ -19,6 +19,18 @@ public class Destillering implements Historikable{
 
 
     public Destillering(LocalDate startDato, LocalDate slutDato, String spiritBatch) {
+        if (startDato == null) {
+            throw new IllegalArgumentException("Startdato skal angives.");
+        }
+        if (slutDato == null) {
+            throw new IllegalArgumentException("Slutdato skal angives.");
+        }
+        if (startDato.isAfter(slutDato)) {
+            throw new IllegalArgumentException("Startdato må ikke være efter slutdato.");
+        }
+        if (spiritBatch.isEmpty()) {
+            throw new IllegalArgumentException("Spiritbatch skal angives.");
+        }
         this.spiritBatch = spiritBatch;
         historik = new ArrayList<>();
         this.fade = new ArrayList<>();
@@ -27,8 +39,11 @@ public class Destillering implements Historikable{
     }
 
     public void registrerDestilleringsData(double alkoholProcent, double mængde) throws IllegalArgumentException {
-        if (alkoholProcent < 0 || mængde < 0) {
-            throw new IllegalArgumentException("Destillerings data skal være et positivt tal.");
+        if (alkoholProcent < 0 || alkoholProcent > 100) {
+            throw new IllegalArgumentException("Alkoholprocenten skal ligge imellem 0 og 100%.");
+        }
+        if (mængde <= 0) {
+            throw new IllegalArgumentException("Destilleringsmængden skal være over 0.");
         }
         this.alkoholProcent = alkoholProcent;
         this.mængde = mængde;

@@ -78,5 +78,8 @@ public class Controller {
         lager.tilføjRåvare(råvare, mængde);
         return råvare;
     }
+    public static void registrerDestilleringsData(Destillering destillering, double mængde, double alkoholProcent) {
+        destillering.registrerDestilleringsData(alkoholProcent,mængde);
+    }
 
 }

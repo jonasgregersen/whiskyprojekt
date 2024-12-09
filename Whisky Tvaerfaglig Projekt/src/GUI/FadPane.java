@@ -134,7 +134,7 @@ public class FadPane extends GridPane {
         Fad fad = lvwFad.getSelectionModel().getSelectedItem();
         txfIndhold.setText(Double.toString(fad.getNuværendeIndhold()));
         txaPlacering.setText(fad.getPlacering() == null ? "Ikke angivet" : fad.getPlacering().toString());
-        txfAlkoPct.setText(fad.getNuværendeIndhold() == 0 ? "Fadet er tomt" : Double.toString(fad.beregnAlkoholProcent()));
+        txfAlkoPct.setText(fad.getNuværendeIndhold() == 0 ? "Fadet er tomt" : Double.toString(Math.round(fad.beregnAlkoholProcent())));
         txfDatoPåfyldning.setText(fad.getDatoPåfyldning() == null ? "Ikke angivet" : fad.getDatoPåfyldning().toString());
         if (!fad.getDestillater().isEmpty()) {
             StringBuilder sbDest = new StringBuilder();
@@ -150,7 +150,7 @@ public class FadPane extends GridPane {
     }
 
     private void createFadAction() {
-        DestilleringWindow dia = new DestilleringWindow("Opret fad");
+        OpretDestilleringWindow dia = new OpretDestilleringWindow("Opret fad");
         dia.showAndWait();
         updateControls();
 
