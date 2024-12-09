@@ -64,6 +64,9 @@ public class StartWindow extends Application {
         Tab tabRåvare = new Tab("Råvare Lager");
         tabPane.getTabs().add(tabRåvare);
 
+        RåvareLagerPane råvareLagerPane = new RåvareLagerPane();
+        tabRåvare.setContent(råvareLagerPane);
+
 
     }
 

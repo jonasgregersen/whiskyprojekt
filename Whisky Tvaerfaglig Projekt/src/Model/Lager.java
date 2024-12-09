@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import GUI.ProduktLagerPane;
+import GUI.WhiskyApp;
 import Model.Råvare;
 
 public class Lager implements Historikable {
@@ -20,6 +23,7 @@ public class Lager implements Historikable {
         reoler = new ArrayList<>();
         råvarer = new HashMap<>();
         historik = new ArrayList<>();
+        produkter = new ArrayList<>();
     }
 
     public Reol findReol(String reolId) {
@@ -75,6 +79,20 @@ public class Lager implements Historikable {
     }
     public String getNavn() {
         return navn;
+    }
+    public void tilføjProdukt(WhiskyProdukt p) {
+        if (!produkter.contains(p)) {
+            produkter.add(p);
+        }
+    }
+    public HashMap<Råvare, Double> getRåvarer() {
+        return new HashMap<>(råvarer);
+    }
+    public void fjernProdukt(WhiskyProdukt p) {
+        produkter.remove(p);
+    }
+    public ArrayList<WhiskyProdukt> getProdukter() {
+        return new ArrayList<>(produkter);
     }
 
     @Override

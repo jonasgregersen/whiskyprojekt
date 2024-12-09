@@ -6,10 +6,7 @@ import javafx.collections.FXCollections;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -68,14 +65,14 @@ public class FadWindow extends Stage {
         pane.add(lblFadType, 1, 0);
 
         cmbxFadType = new ComboBox<Fad.FadType>();
-        pane.add(cmbxFadType, 1,1);
+        pane.add(cmbxFadType, 1, 1);
         cmbxFadType.getItems().setAll(Fad.FadType.values());
 
         Label lblIndkøbt = new Label("Indkøbt");
         pane.add(lblIndkøbt, 1, 2);
 
         txfIndkøbt = new TextField();
-        pane.add(txfIndkøbt,1,3);
+        pane.add(txfIndkøbt, 1, 3);
 
 
         Button btnCancel = new Button("Cancel");
@@ -89,7 +86,7 @@ public class FadWindow extends Stage {
         btnOK.setOnAction(event -> this.okAction());
 
         lblError = new Label();
-        pane.add(lblError, 0, 5);
+        pane.add(lblError, 1, 4);
         lblError.setStyle("-fx-text-fill: red");
 
         this.initControls();
@@ -112,12 +109,22 @@ public class FadWindow extends Stage {
     }
 
     private void okAction() {
-        int fadNr = Integer.parseInt(txfFadNr.getText());
-        double kapacitet = Double.parseDouble(txfKapacitet.getText());
-        Fad.FadType fadType = (Fad.FadType)cmbxFadType.getSelectionModel().getSelectedItem();
-        String indkøbt = txfIndkøbt.getText();
-        Controller.opretFad(fadNr, fadType, kapacitet, indkøbt);
-        this.hide();
+        String fadNrText = txfFadNr.getText().trim();
+        int fadNr = Integer.parseInt(fadNrText);
+        String kapacitetText = txfKapacitet.getText().trim();
+        double kapacitet = Double.parseDouble(kapacitetText);
+        Fad.FadType fadType = cmbxFadType.getSelectionModel().getSelectedItem();
+        String indkøbt = txfIndkøbt.getText().trim();
+        try {
+            Controller.opretFad(fadNr, fadType, kapacitet, indkøbt);
+            this.hide();
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText(e.getMessage());
+            alert.setTitle("Opret fad");
+            alert.setHeaderText("Kan ikke oprette fad");
+            alert.showAndWait();
+        }
     }
 
 }

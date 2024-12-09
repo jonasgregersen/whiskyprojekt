@@ -4,12 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static java.lang.Math.round;
+
 public class WhiskyProdukt {
     private String navn;
     private double alkoholProcent;
     private String produktBatch;
     private Tapning væskeBlanding;
     private double indholdsKapacitet;
+    private Lager lagerPlacering;
     private ProduktType type;
     private enum ProduktType {
         SINGLE_CASK, CASK_STRENGTH, BLENDED
@@ -57,12 +60,19 @@ public class WhiskyProdukt {
     public double getIndholdsKapacitet() {
         return indholdsKapacitet;
     }
+    public void setLagerPlacering(Lager l) {
+        if (lagerPlacering != null) {
+            lagerPlacering.fjernProdukt(this);
+        }
+        lagerPlacering = l;
+        lagerPlacering.tilføjProdukt(this);
+    }
     public ProduktType getType() {
         return type;
     }
     @Override
     public String toString() {
-        return type != null ? type + " - " + produktBatch : produktBatch;
+        return navn + " - (" + (type != null ? produktBatch + " - " + type : produktBatch) + ")";
     }
     public String udskrivProduktionsProcess() {
         StringBuilder sbResult = new StringBuilder();
@@ -70,17 +80,18 @@ public class WhiskyProdukt {
         sbResult.append("Navn: " + navn + "\n");
         sbResult.append("Type: " + type + "\n");
         sbResult.append("Produktbatch: " + produktBatch + "\n");
-        sbResult.append("Alkoholprocent " + væskeBlanding.beregnAlkoholProcent() + "\n");
+        sbResult.append("Alkoholprocent " + Math.round(væskeBlanding.beregnAlkoholProcent()) + "%\n");
         sbResult.append("\nMaltbatch:\n");
         væskeBlanding.getFadVæske().forEach( (k,v) ->
-                k.getDestillater().forEach((d, f) -> sbResult.append(d.getMaltBatch() + "\n")));
+                k.getDestillater().forEach((d, f) -> sbResult.append(d.getMaltBatch() + " - "
+                        +  d.getRåvare().getKornSort()+ "\n")));
         sbResult.append("\nSpiritbatch:\n");
         væskeBlanding.getFadVæske().forEach( (k,v) ->
                 k.getDestillater().forEach( (d, f) -> sbResult.append(d.getSpiritBatch() + "\n")));
         sbResult.append("\nFad brugt:\n");
         væskeBlanding.getFadVæske().forEach( (k,v) -> sbResult.append("Fad nr. " + k.getFadNr() + ": " + k.getFadType() +
                 ", indkøbt fra " + k.getIndkøbtFra() + "\n"));
-        sbResult.append("\nAlkoholprocent: " + væskeBlanding.beregnAlkoholProcent());
+        sbResult.append("\nTapning brugt:\n" + væskeBlanding.getTapningsBatch());
         return sbResult.toString();
     }
 }

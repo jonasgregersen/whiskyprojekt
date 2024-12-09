@@ -1,5 +1,6 @@
 package Controller;
 
+import GUI.RåvareLagerPane;
 import Model.*;
 import Storage.Storage;
 
@@ -7,10 +8,14 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Controller {
-    public static Fad opretFad(int fadNr, Fad.FadType fadType, double kapacitet, String indkøbt) {
-        Fad fad = new Fad(fadNr, fadType, kapacitet, indkøbt);
-        Storage.addFad(fad);
-        return fad;
+    public static Fad opretFad(int fadNr, Fad.FadType fadType, double kapacitet, String indkøbt) throws IllegalArgumentException{
+        try {
+            Fad fad = new Fad(fadNr, fadType, kapacitet, indkøbt);
+            Storage.addFad(fad);
+            return fad;
+        } catch (Exception e) {
+            throw new IllegalArgumentException(e);
+        }
     }
     public static Lager opretLager(int id, String navn) {
         Lager lager = new Lager(id, navn);
@@ -39,8 +44,12 @@ public class Controller {
         }
         return null;
     }
-    public static void tilførDestilleringTilFad(Destillering destillering, Fad fad, double mængde) {
-        destillering.tilførFad(fad, mængde);
+    public static void tilførDestilleringTilFad(Destillering destillering, Fad fad, double mængde) throws IllegalArgumentException {
+        try {
+            destillering.tilførFad(fad, mængde);
+        } catch (Exception e) {
+            throw new IllegalArgumentException(e);
+        }
     }
     public static void tapFadEksisterendeTapning(Tapning tapning, Fad fad, double tapMængde) {
         if (tapning == null || fad == null || tapMængde <= 0 || fad.getNuværendeIndhold() < tapMængde) {
@@ -61,4 +70,13 @@ public class Controller {
     public static void tilførTapningTilProdukt(Tapning tapning, WhiskyProdukt produkt) {
         produkt.setVæskeBlanding(tapning);
     }
+    public static void setProduktPlacering(WhiskyProdukt p, Lager l) {
+        l.tilføjProdukt(p);
+    }
+    public static Råvare opretRåvare(Lager lager, Råvare.KornSort kornSort, String maltBatch, double mængde) {
+        Råvare råvare = new Råvare(kornSort, maltBatch);
+        lager.tilføjRåvare(råvare, mængde);
+        return råvare;
+    }
+
 }

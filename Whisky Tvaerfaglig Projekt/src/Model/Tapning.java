@@ -75,6 +75,9 @@ public class Tapning {
         return fortyndingsMængde;
     }
     public String toString() {
-        return tapningsBatch + " - fortyndet med " + fortyndingsMængde + " liter.";
+        return tapningsBatch + " - " + fortyndingsMængde + " liter vand. - " + totalMængde + " liter i alt.";
+    }
+    public String getTapningsBatch() {
+        return tapningsBatch;
     }
 }

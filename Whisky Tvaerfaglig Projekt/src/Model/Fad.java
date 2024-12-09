@@ -21,7 +21,19 @@ public class Fad implements Historikable {
         NY, BOURBON, SHERRY, OLOROSO
     }
 
-    public Fad(int fadNr, FadType fadType, double kapacitet, String indkøbt) {
+    public Fad(int fadNr, FadType fadType, double kapacitet, String indkøbt) throws IllegalArgumentException {
+        if (fadNr <= 0) {
+            throw new IllegalArgumentException("Fadnr. skal være større end 0.");
+        }
+        if (fadType == null) {
+            throw new IllegalArgumentException("Fadtype skal angives.");
+        }
+        if (kapacitet <= 0) {
+            throw new IllegalArgumentException("Kapacitet skal være større end 0.");
+        }
+        if (indkøbt.isEmpty()) {
+            throw new IllegalArgumentException("Indkøbsland skal angives.");
+        }
         this.fadNr = fadNr;
         this.fadType = fadType;
 
@@ -41,7 +53,8 @@ public class Fad implements Historikable {
         if (destillat == null) {
             throw new IllegalArgumentException("Spiritbatch skal specificeres.");
         }
-        destillater.put(destillat, mængde);
+        destillater.put(destillat, destillater.containsKey(destillat) ?
+                destillater.get(destillat) + mængde : mængde);
         this.nuværendeIndhold += mængde;
         datoPåfyldning = LocalDate.now();
         registrerHændelse("Påfyldning", "Fad nr. " + fadNr + " påfyldt " + mængde + " liter, " + destillat.getAlkoholProcent() +

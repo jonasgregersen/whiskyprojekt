@@ -31,9 +31,12 @@ public class WhiskyApp {
         Controller.tilførDestilleringTilFad(d1, fad3, 64);
         Controller.tilførDestilleringTilFad(d2, fad3, 30);
 
-        Råvare byg = new Råvare(Råvare.KornSort.EVERGREEN, "Batch001", 300);
+        Råvare byg = new Råvare(Råvare.KornSort.EVERGREEN, "Batch001");
+        Råvare malt = new Råvare(Råvare.KornSort.IRINA, "Batch002");
         sall.tilføjRåvare(byg, 300);
+        sall.tilføjRåvare(malt, 500);
         d1.tilføjRåvare(sall, byg, 100);
+        d2.tilføjRåvare(sall, malt, 200);
 
         fad1.setDatoPåfyldning(LocalDate.of(2019,5,2));
         fad2.setDatoPåfyldning(LocalDate.of(2021,5,21));
@@ -44,6 +47,7 @@ public class WhiskyApp {
         Controller.tapFadEksisterendeTapning(væskeBlanding, fad2, 10);
 
         WhiskyProdukt p1 = Controller.opretProdukt("Whisky", "PB001", væskeBlanding,0.7);
+        p1.setLagerPlacering(sall);
         System.out.println(p1.udskrivProduktionsProcess());
     }
 }

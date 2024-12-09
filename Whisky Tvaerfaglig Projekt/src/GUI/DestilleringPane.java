@@ -100,9 +100,16 @@ public class DestilleringPane extends GridPane {
         Button btnDelete = new Button("Fjern destillering");
         hbxButtons.getChildren().add(btnDelete);
 
+        HBox hbxButtons2 = new HBox(40);
+        this.add(hbxButtons2,0,4);
+
         Button btnHistorik = new Button("Se historik");
-        this.add(btnHistorik, 0, 4);
         btnHistorik.setOnAction(event -> this.seDestilleringHistorikAction());
+
+        Button btnPåfyldFad = new Button("Påfyld fad");
+        btnPåfyldFad.setOnAction(event -> this.påfyldFadAction());
+
+        hbxButtons2.getChildren().addAll(btnHistorik, btnPåfyldFad);
 
 
         if (lvwDestillering.getItems().size() > 0) {
@@ -112,6 +119,11 @@ public class DestilleringPane extends GridPane {
 
     public void selectedDestilleringChanged() {
         this.updateControls();
+    }
+    private void påfyldFadAction() {
+        Destillering destillering = lvwDestillering.getSelectionModel().getSelectedItem();
+        PåfyldWindow dia = new PåfyldWindow("Påfyld fad", destillering);
+        dia.showAndWait();
     }
 
     public void updateControls() {
