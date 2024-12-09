@@ -49,15 +49,20 @@ public class StartWindow extends Application {
         DestilleringPane destilleringPane = new DestilleringPane();
         tabDestilleringer.setContent(destilleringPane);
 
-        Tab tabFadLager = new Tab("Lager");
+        Tab tabFadLager = new Tab("Fad Lager");
         tabPane.getTabs().add(tabFadLager);
 
         FadLagerPane fadLagerPane = new FadLagerPane();
         tabFadLager.setContent(fadLagerPane);
 
-        Tab tabProdukter = new Tab("Produkter");
+        Tab tabProdukter = new Tab("Produkt Lager");
         tabPane.getTabs().add(tabProdukter);
 
+        ProduktLagerPane produktLagerPane = new ProduktLagerPane();
+        tabProdukter.setContent(produktLagerPane);
+
+        Tab tabRåvare = new Tab("Råvare Lager");
+        tabPane.getTabs().add(tabRåvare);
 
 
     }

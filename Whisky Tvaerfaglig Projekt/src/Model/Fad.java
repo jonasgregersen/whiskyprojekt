@@ -191,4 +191,7 @@ public class Fad implements Historikable {
     public FadType getFadType() {
         return fadType;
     }
+    public String getIndkøbtFra() {
+        return indkøbtFra;
+    }
 }

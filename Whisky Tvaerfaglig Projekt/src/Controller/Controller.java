@@ -53,4 +53,12 @@ public class Controller {
         Storage.addTapning(nyTapning);
         return nyTapning;
     }
+    public static WhiskyProdukt opretProdukt(String navn, String produktBatch, Tapning væskeBlanding, double kapacitet) {
+        WhiskyProdukt produkt = new WhiskyProdukt(navn, produktBatch, væskeBlanding, kapacitet);
+        Storage.addProdukt(produkt);
+        return produkt;
+    }
+    public static void tilførTapningTilProdukt(Tapning tapning, WhiskyProdukt produkt) {
+        produkt.setVæskeBlanding(tapning);
+    }
 }

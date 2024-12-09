@@ -52,7 +52,7 @@ class FadTest {
 
     @Test
     void testTap() {
-        Tapning tapning = new Tapning(0);
+        Tapning tapning = new Tapning("TP101", 0);
         destillering.registrerDestilleringsData(65,150);
         Controller.tilførDestilleringTilFad(destillering,fad,150);
         fad.setDatoPåfyldning(LocalDate.of(2020,9,14));
@@ -63,7 +63,7 @@ class FadTest {
 
     @Test
     void testTapForMeget() {
-        Tapning tapning = new Tapning(0);
+        Tapning tapning = new Tapning("TP101", 0);
         destillering.registrerDestilleringsData(65,150);
         Controller.tilførDestilleringTilFad(destillering,fad,150);
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
@@ -108,7 +108,7 @@ class FadTest {
         Destillering destillering1 = new Destillering(LocalDate.of(2016, 6, 12), LocalDate.of(2019, 8, 13), "Batch A");
         Destillering destillering2 = new Destillering(LocalDate.of(2012, 6, 12), LocalDate.of(2016, 6,9), "Batch B");
         Fad fad1 = new Fad(1, Fad.FadType.BOURBON, 200.0, "Sall");
-        Tapning tapning = new Tapning(0);
+        Tapning tapning = new Tapning("TP101", 0);
         destillering1.registrerDestilleringsData(65, 120);
         destillering2.registrerDestilleringsData(65, 80);
         Controller.tilførDestilleringTilFad(destillering1, fad1, 120);

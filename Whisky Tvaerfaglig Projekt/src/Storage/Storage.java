@@ -8,6 +8,7 @@ public class Storage {
     private final static ArrayList<Lager> lagre = new ArrayList<>();
     private final static ArrayList<Destillering> destillater = new ArrayList<>();
     private final static ArrayList<Tapning> tapninger = new ArrayList<>();
+    private final static ArrayList<WhiskyProdukt> produkter = new ArrayList<>();
     public static void addFad(Fad fad) {
         if (!fade.contains(fad)) {
             fade.add(fad);
@@ -53,5 +54,18 @@ public class Storage {
     }
     public static ArrayList<Tapning> getTapninger() {
         return new ArrayList<>(tapninger);
+    }
+    public static void addProdukt(WhiskyProdukt p) {
+        if (!produkter.contains(p)) {
+            produkter.add(p);
+        }
+    }
+    public static WhiskyProdukt removeProdukt(WhiskyProdukt p) {
+        WhiskyProdukt fjernetProdukt = p;
+        produkter.remove(p);
+        return fjernetProdukt;
+    }
+    public static ArrayList<WhiskyProdukt> getProdukter() {
+        return new ArrayList<>(produkter);
     }
 }

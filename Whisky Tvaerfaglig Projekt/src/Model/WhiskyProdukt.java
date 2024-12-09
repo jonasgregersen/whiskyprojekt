@@ -1,5 +1,9 @@
 package Model;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 public class WhiskyProdukt {
     private String navn;
     private double alkoholProcent;
@@ -8,30 +12,32 @@ public class WhiskyProdukt {
     private double indholdsKapacitet;
     private ProduktType type;
     private enum ProduktType {
-        SINGLECASK, CASKSTRENGTH, BLENDED
+        SINGLE_CASK, CASK_STRENGTH, BLENDED
     }
 
 
-    public WhiskyProdukt(String navn, String produktBatch, double indholdsKapacitet) {
+    public WhiskyProdukt(String navn, String produktBatch, Tapning væskeBlanding, double indholdsKapacitet) {
         this.navn = navn;
         this.produktBatch = produktBatch;
         this.indholdsKapacitet = indholdsKapacitet;
+        this.væskeBlanding = setVæskeBlanding(væskeBlanding);
     }
-    public void setVæskeBlanding(Tapning væskeBlanding) throws IllegalArgumentException{
+    public Tapning setVæskeBlanding(Tapning væskeBlanding) throws IllegalArgumentException{
         this.væskeBlanding = væskeBlanding;
         if (væskeBlanding.getFadVæske().isEmpty()) {
             throw new IllegalArgumentException("Tapningsvæsken er tom.");
         }
         if (væskeBlanding.getFadVæske().size() == 1 && væskeBlanding.getFortyndingsMængde() == 0) {
-            this.type = ProduktType.CASKSTRENGTH;
+            this.type = ProduktType.CASK_STRENGTH;
         }
         if (væskeBlanding.getFadVæske().size() == 1 && væskeBlanding.getFortyndingsMængde() > 0) {
-            this.type = ProduktType.SINGLECASK;
+            this.type = ProduktType.SINGLE_CASK;
         }
         if (væskeBlanding.getFadVæske().size() > 1) {
             this.type = ProduktType.BLENDED;
         }
         alkoholProcent = væskeBlanding.beregnAlkoholProcent();
+        return væskeBlanding;
     }
     public String getNavn() {
         return navn;
@@ -56,10 +62,25 @@ public class WhiskyProdukt {
     }
     @Override
     public String toString() {
-        return "WhiskyProdukt{" +
-                ", navn='" + navn + '\'' +
-                ", alkoholProcent=" + alkoholProcent +
-                ", produktBatch=" + produktBatch +
-                '}';
+        return type != null ? type + " - " + produktBatch : produktBatch;
+    }
+    public String udskrivProduktionsProcess() {
+        StringBuilder sbResult = new StringBuilder();
+        sbResult.append("Whisky produkt:\n");
+        sbResult.append("Navn: " + navn + "\n");
+        sbResult.append("Type: " + type + "\n");
+        sbResult.append("Produktbatch: " + produktBatch + "\n");
+        sbResult.append("Alkoholprocent " + væskeBlanding.beregnAlkoholProcent() + "\n");
+        sbResult.append("\nMaltbatch:\n");
+        væskeBlanding.getFadVæske().forEach( (k,v) ->
+                k.getDestillater().forEach((d, f) -> sbResult.append(d.getMaltBatch() + "\n")));
+        sbResult.append("\nSpiritbatch:\n");
+        væskeBlanding.getFadVæske().forEach( (k,v) ->
+                k.getDestillater().forEach( (d, f) -> sbResult.append(d.getSpiritBatch() + "\n")));
+        sbResult.append("\nFad brugt:\n");
+        væskeBlanding.getFadVæske().forEach( (k,v) -> sbResult.append("Fad nr. " + k.getFadNr() + ": " + k.getFadType() +
+                ", indkøbt fra " + k.getIndkøbtFra() + "\n"));
+        sbResult.append("\nAlkoholprocent: " + væskeBlanding.beregnAlkoholProcent());
+        return sbResult.toString();
     }
 }

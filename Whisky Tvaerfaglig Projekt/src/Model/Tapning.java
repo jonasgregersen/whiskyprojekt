@@ -45,7 +45,7 @@ public class Tapning {
             entryAlkoholVolumen = entry.getValue() * entry.getKey().beregnAlkoholProcent() / 100;
             totalAlkoholVolumen += entryAlkoholVolumen;
         }
-        beregnetAlkoPct = totalAlkoholVolumen / totalMængde;
+        beregnetAlkoPct = totalAlkoholVolumen / totalMængde * 100;
         return beregnetAlkoPct;
     }
     private HashMap<Fad, Double> beregnReduceretVæske(double mængde) {

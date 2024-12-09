@@ -83,9 +83,13 @@ public class FadLagerPane extends GridPane {
         if (selectedHylde != null) {
             lvwFade.getItems().setAll(selectedHylde.getFade());
         }
+        lvwLagre.getItems().setAll(Storage.getLagre());
+
     }
     private void opretLagerAction() {
-
+        OpretLagerWindow dia = new OpretLagerWindow("Opret nyt lager");
+        dia.showAndWait();
+        updateControls();
     }
     private void opretReolAction() {
         Lager selectedLager = lvwLagre.getSelectionModel().getSelectedItem();
@@ -94,6 +98,11 @@ public class FadLagerPane extends GridPane {
             dia.showAndWait();
             updateControls();
         }
+    }
+    private void clearLists() {
+        lvwReoler.getItems().clear();
+        lvwHylder.getItems().clear();
+        lvwFade.getItems().clear();
     }
     private void opretHyldeAction() {
         Reol selectedReol = lvwReoler.getSelectionModel().getSelectedItem();

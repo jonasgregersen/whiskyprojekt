@@ -1,11 +1,14 @@
 package GUI;
 
+import Controller.Controller;
 import Model.Lager;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -42,5 +45,23 @@ public class OpretLagerWindow extends Stage {
 
         txfLagerNavn = new TextField();
         pane.add(txfLagerNavn, 1,1);
+
+        HBox hbxButtons = new HBox(40);
+        pane.add(hbxButtons, 0, 2);
+
+        Button btnCancel = new Button("Cancel");
+        btnCancel.setOnAction(event -> this.hide());
+
+        Button btnOk = new Button("Ok");
+        btnOk.setOnAction(event -> this.okButtonAction());
+
+        hbxButtons.getChildren().addAll(btnCancel, btnOk);
     }
+    private void okButtonAction() {
+        int lagerId = Integer.parseInt(txfLagerId.getText());
+        String lagerNavn = txfLagerNavn.getText().trim();
+        Controller.opretLager(lagerId, lagerNavn);
+        this.hide();
+    }
+
 }

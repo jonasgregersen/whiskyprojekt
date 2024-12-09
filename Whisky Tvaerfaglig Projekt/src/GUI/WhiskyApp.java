@@ -38,5 +38,12 @@ public class WhiskyApp {
         fad1.setDatoPåfyldning(LocalDate.of(2019,5,2));
         fad2.setDatoPåfyldning(LocalDate.of(2021,5,21));
         fad3.setDatoPåfyldning(LocalDate.of(2023,7,19));
+
+        Tapning væskeBlanding = Controller.opretTapning("TAP101", 0);
+        Controller.tapFadEksisterendeTapning(væskeBlanding, fad1, 15);
+        Controller.tapFadEksisterendeTapning(væskeBlanding, fad2, 10);
+
+        WhiskyProdukt p1 = Controller.opretProdukt("Whisky", "PB001", væskeBlanding,0.7);
+        System.out.println(p1.udskrivProduktionsProcess());
     }
 }
