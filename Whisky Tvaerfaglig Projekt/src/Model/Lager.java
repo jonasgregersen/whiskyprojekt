@@ -67,8 +67,14 @@ public class Lager implements Historikable {
         }
         return null;
     }
+    public ArrayList<Reol> getReoler() {
+        return new ArrayList<>(reoler);
+    }
     public double mængdePåBatch(String maltBatch) {
         return råvarer.get(findRåvare(maltBatch));
+    }
+    public String getNavn() {
+        return navn;
     }
 
     @Override

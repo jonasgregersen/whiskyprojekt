@@ -11,8 +11,8 @@ public class WhiskyApp {
         Application.launch(StartWindow.class);
     }
     public static void initStorage() {
-        Lager sall = new Lager(1, "Sall");
-        Reol reol = new Reol("R1");
+        Lager sall = Controller.opretLager(1, "Sall");
+        Reol reol = sall.opretReol("R1");
         Hylde hylde = reol.opretHylde("H1", 4);
         Placering placering = new Placering(sall, reol, hylde);
 

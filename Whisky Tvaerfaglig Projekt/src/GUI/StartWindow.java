@@ -1,6 +1,8 @@
 package GUI;
 
 import Controller.Controller;
+import Model.Lager;
+import Model.Reol;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Tab;
@@ -47,11 +49,16 @@ public class StartWindow extends Application {
         DestilleringPane destilleringPane = new DestilleringPane();
         tabDestilleringer.setContent(destilleringPane);
 
-        Tab tabLager = new Tab("Lager");
-        tabPane.getTabs().add(tabLager);
+        Tab tabFadLager = new Tab("Lager");
+        tabPane.getTabs().add(tabFadLager);
+
+        FadLagerPane fadLagerPane = new FadLagerPane();
+        tabFadLager.setContent(fadLagerPane);
 
         Tab tabProdukter = new Tab("Produkter");
         tabPane.getTabs().add(tabProdukter);
+
+
 
     }
 

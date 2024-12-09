@@ -52,6 +52,6 @@ public class Hylde implements Historikable{
     }
 
     public String toString() {
-        return "Hylde ID: " + hyldeId;
+        return "Hylde ID: " + hyldeId + " - (" + fade.size() + "/" + kapacitet + ")";
     }
 }
