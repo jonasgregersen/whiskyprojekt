@@ -48,7 +48,7 @@ public class Destillering implements Historikable{
         this.mængde -= mængde;
         fad.påfyld(this, mængde);
         fade.add(fad);
-        registrerHændelse("Tilførelse", "BatchNr. " + spiritBatch + " påfyldt fadNr. " + fad.getFadNr() + " " + mængde + " liter.");
+        registrerHændelse("Tilførelse", "Spiritbatch: " + spiritBatch + " påfyldt fadNr. " + fad.getFadNr() + ", " + mængde + " liter. Resterende mængde: " + this.mængde);
     }
 
     public void registrerHændelse(String type, String beskrivelse) {
@@ -100,6 +100,12 @@ public class Destillering implements Historikable{
 
     public String getMaltBatch() {
         return maltBatch;
+    }
+    public LocalDate getStartDato() {
+        return startDato;
+    }
+    public LocalDate getSlutDato() {
+        return slutDato;
     }
     public String toString() {
         return spiritBatch;

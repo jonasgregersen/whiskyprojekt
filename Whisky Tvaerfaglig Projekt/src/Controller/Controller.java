@@ -42,4 +42,15 @@ public class Controller {
     public static void tilførDestilleringTilFad(Destillering destillering, Fad fad, double mængde) {
         destillering.tilførFad(fad, mængde);
     }
+    public static void tapFadEksisterendeTapning(Tapning tapning, Fad fad, double tapMængde) {
+        if (tapning == null || fad == null || tapMængde <= 0 || fad.getNuværendeIndhold() < tapMængde) {
+            throw new IllegalArgumentException("Ugyldige data eller utilstrækkelig mængde i fad.");
+        }
+        fad.tap(tapning, tapMængde);
+    }
+    public static Tapning opretTapning(String tapningsBatch, double fortyndingsMængde) {
+        Tapning nyTapning = new Tapning(tapningsBatch, fortyndingsMængde);
+        Storage.addTapning(nyTapning);
+        return nyTapning;
+    }
 }

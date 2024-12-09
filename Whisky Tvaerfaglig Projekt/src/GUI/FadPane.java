@@ -102,9 +102,17 @@ public class FadPane extends GridPane {
         Button btnDelete = new Button("Fjern fad");
         hbxButtons.getChildren().add(btnDelete);
 
+        HBox hbxFadButtons = new HBox(40);
+        this.add(hbxFadButtons, 0 , 4);
+
         Button btnHistorik = new Button("Se historik");
-        this.add(btnHistorik, 0, 4);
         btnHistorik.setOnAction(event -> this.seFadHistorikAction());
+
+        Button btnTap = new Button("Tap fad");
+        btnTap.setOnAction(event -> this.tapFadAction());
+
+        hbxFadButtons.getChildren().addAll(btnHistorik, btnTap);
+
 
 
         if (lvwFad.getItems().size() > 0) {
@@ -136,7 +144,7 @@ public class FadPane extends GridPane {
     }
 
     private void createFadAction() {
-        FadWindow dia = new FadWindow("Opret fad");
+        DestilleringWindow dia = new DestilleringWindow("Opret fad");
         dia.showAndWait();
         updateControls();
 
@@ -148,6 +156,30 @@ public class FadPane extends GridPane {
         Fad fad = lvwFad.getSelectionModel().getSelectedItem();
         HistorikWindow dia = new HistorikWindow("Fad nr. " + fad.getFadNr() + " historik", fad);
         dia.showAndWait();
+    }
+    private void tapFadAction() {
+        Fad fad = lvwFad.getSelectionModel().getSelectedItem();
+        if (fad == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Ingen Fad Valgt");
+            alert.setHeaderText("Du skal vælge et fad, før du kan tappe.");
+            alert.showAndWait();
+            return;
+        }
+
+        System.out.println("Valgt fad: " + fad);
+
+        try {
+            TapWindow dia = new TapWindow("Tap fadnr. " + fad.getFadNr(), fad);
+            dia.showAndWait();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Fejl");
+            alert.setHeaderText("Der opstod en fejl ved åbning af tapningsvinduet.");
+            alert.setContentText(e.getMessage());
+            alert.showAndWait();
+        }
     }
     // ------------------------------------------------------------------------
 

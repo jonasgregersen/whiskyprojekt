@@ -7,6 +7,7 @@ public class Storage {
     private final static ArrayList<Fad> fade = new ArrayList<>();
     private final static ArrayList<Lager> lagre = new ArrayList<>();
     private final static ArrayList<Destillering> destillater = new ArrayList<>();
+    private final static ArrayList<Tapning> tapninger = new ArrayList<>();
     public static void addFad(Fad fad) {
         if (!fade.contains(fad)) {
             fade.add(fad);
@@ -39,5 +40,18 @@ public class Storage {
     }
     public static ArrayList<Destillering> getDestillater() {
         return new ArrayList<>(destillater);
+    }
+    public static void addTapning(Tapning t) {
+        if (!tapninger.contains(t)) {
+            tapninger.add(t);
+        }
+    }
+    public static Tapning removeTapning(Tapning t) {
+        Tapning fjernetTapning = t;
+        tapninger.remove(t);
+        return fjernetTapning;
+    }
+    public static ArrayList<Tapning> getTapninger() {
+        return new ArrayList<>(tapninger);
     }
 }

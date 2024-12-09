@@ -5,12 +5,14 @@ import java.util.List;
 import java.util.Map;
 
 public class Tapning {
+    private String tapningsBatch;
     private HashMap<Fad, Double> fadVæske;
     private double fortyndingsMængde;
     private double totalMængde;
     private double alkoholProcent;
     private List<WhiskyProdukt> tilførteProdukter;
-    public Tapning(double fortyndingsMængde) {
+    public Tapning(String tapningsBatch, double fortyndingsMængde) {
+        this.tapningsBatch = tapningsBatch;
         this.totalMængde = fortyndingsMængde;
         this.fortyndingsMængde = fortyndingsMængde;
         alkoholProcent = 0;
@@ -71,5 +73,8 @@ public class Tapning {
     }
     public double getFortyndingsMængde() {
         return fortyndingsMængde;
+    }
+    public String toString() {
+        return tapningsBatch + " - fortyndet med " + fortyndingsMængde + " liter.";
     }
 }
