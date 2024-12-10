@@ -24,12 +24,6 @@ public class FadPane extends GridPane {
         this.setVgap(10);
         this.setGridLinesVisible(false);
 
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setContentText("mis");
-        alert.setTitle("Opret fad");
-        alert.setHeaderText("Kan ikke oprette fad");
-        alert.showAndWait();
-
         Label lblFad = new Label("Fad");
         this.add(lblFad, 0, 0);
 
