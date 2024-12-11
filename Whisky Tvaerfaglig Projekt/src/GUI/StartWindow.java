@@ -41,7 +41,6 @@ public class StartWindow extends Application {
 
         FadPane fadPane = new FadPane();
         tabFad.setContent(fadPane);
-        tabFad.setOnSelectionChanged(event -> fadPane.updateControls());
 
         Tab tabDestilleringer = new Tab("Destilleringer");
         tabPane.getTabs().add(tabDestilleringer);

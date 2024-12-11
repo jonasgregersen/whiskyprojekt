@@ -11,12 +11,14 @@ import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 public class FadPane extends GridPane {
     private TextField txfIndhold, txfAlkoPct, txfDatoPåfyldning, txfSlutDato, txfKlarTilTapning;
     private TextArea txaDestilleringer, txaCustms, txaPlacering;
     private ListView<Fad> lvwFad;
+    private ToggleButton tgbtnModneFad;
 
     public FadPane() {
         this.setPadding(new Insets(20));
@@ -111,7 +113,11 @@ public class FadPane extends GridPane {
         Button btnTap = new Button("Tap fad");
         btnTap.setOnAction(event -> this.tapFadAction());
 
-        hbxFadButtons.getChildren().addAll(btnHistorik, btnTap);
+        tgbtnModneFad = new ToggleButton("Filter modne fad");
+        tgbtnModneFad.setOnAction(event -> this.seModneFadAction());
+
+
+        hbxFadButtons.getChildren().addAll(btnHistorik, btnTap, tgbtnModneFad);
 
 
 
@@ -180,6 +186,20 @@ public class FadPane extends GridPane {
             alert.setContentText(e.getMessage());
             alert.showAndWait();
         }
+    }
+    private void seModneFadAction() {
+        if (!tgbtnModneFad.isSelected()) {
+            lvwFad.getItems().setAll(Storage.getFade());
+        } else {
+            ArrayList<Fad> modneFad = new ArrayList<>();
+            for (Fad fad : Storage.getFade()) {
+                if (fad.klarTilTapning()) {
+                    modneFad.add(fad);
+                }
+            }
+            lvwFad.getItems().setAll(modneFad);
+        }
+        lvwFad.refresh();
     }
     // ------------------------------------------------------------------------
 

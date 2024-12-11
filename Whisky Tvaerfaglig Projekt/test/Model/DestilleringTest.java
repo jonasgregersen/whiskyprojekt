@@ -43,7 +43,7 @@ class DestilleringTest {
     @Test
     void tilføjRåvare() {
         Lager lager = new Lager(1, "Lager A");
-        Råvare råvare = new Råvare(Råvare.KornSort.EVERGREEN, "Batch001", 500.0);
+        Råvare råvare = new Råvare(Råvare.KornSort.EVERGREEN, "Batch001");
         lager.tilføjRåvare(råvare, 500);
 
         destillering.tilføjRåvare(lager, råvare, 200);
