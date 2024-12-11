@@ -47,7 +47,7 @@ class FadTest {
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             Controller.tilførDestilleringTilFad(destillering, fad, 250);
         });
-        assertEquals("Fadet kan ikke rumme mere.", exception.getMessage());
+        assertEquals("Fadet kan ikke rumme den angivne mængde.", exception.getMessage());
     }
 
     @Test

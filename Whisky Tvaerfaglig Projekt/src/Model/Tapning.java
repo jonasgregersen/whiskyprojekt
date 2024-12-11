@@ -22,9 +22,6 @@ public class Tapning {
         if (fad == null) {
             throw new IllegalArgumentException("Fadet skal være angivet.");
         }
-        if (fad.getNuværendeIndhold() - mængde < 0) {
-            throw new IllegalArgumentException("Ikke nok væske i fadet.");
-        }
         if (fadVæske.containsKey(fad)) {
             double eksisterendeVæske = fadVæske.get(fad);
             double tilføjetVæske = mængde;

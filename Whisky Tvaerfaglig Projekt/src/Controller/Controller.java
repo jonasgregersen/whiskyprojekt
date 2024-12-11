@@ -14,7 +14,7 @@ public class Controller {
             Storage.addFad(fad);
             return fad;
         } catch (Exception e) {
-            throw new IllegalArgumentException(e);
+            throw e;
         }
     }
 
@@ -71,7 +71,7 @@ public class Controller {
         try {
             destillering.tilførFad(fad, mængde);
         } catch (Exception e) {
-            throw new IllegalArgumentException(e);
+            throw e;
         }
     }
 

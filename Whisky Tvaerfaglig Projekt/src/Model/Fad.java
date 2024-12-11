@@ -66,9 +66,6 @@ public class Fad implements Historikable {
         if (nuværendeIndhold - mængde < 0) {
             throw new IllegalArgumentException("Tapmængden er større end fadets indhold.");
         }
-        if (nuværendeIndhold == 0) {
-            throw new IllegalArgumentException("Fadet er tomt.");
-        }
         if (!klarTilTapning()) { // Fadet skal være lagret i mindst 3 år.
             throw new IllegalArgumentException("Fadet er ikke klar til tapning.");
         }
