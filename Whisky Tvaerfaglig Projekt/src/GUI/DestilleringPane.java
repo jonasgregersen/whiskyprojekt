@@ -148,6 +148,18 @@ public class DestilleringPane extends GridPane {
         int index = lvwDestillering.getItems().size() - 1;
         lvwDestillering.getSelectionModel().select(index);
     }
+    private void fjernDestilleringAction() {
+        Destillering d = lvwDestillering.getSelectionModel().getSelectedItem();
+        try {
+            Controller.Controller.fjernDestillering(d);
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText(e.getMessage());
+            alert.setTitle("Fjern destillering");
+            alert.setHeaderText("Kan ikke fjerne destillering");
+            alert.showAndWait();
+        }
+    }
     private void seDestilleringHistorikAction() {
         Destillering destillering = lvwDestillering.getSelectionModel().getSelectedItem();
         HistorikWindow dia = new HistorikWindow("Fad nr. " + destillering.getSpiritBatch() + " historik", destillering);
