@@ -2,6 +2,7 @@ package GUI;
 
 import Model.*;
 import Storage.Storage;
+import javafx.beans.value.ChangeListener;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -19,6 +20,7 @@ public class setPlaceringWindow extends Stage {
     private ListView<Lager> lvwLagre;
     private ListView<Reol> lvwReoler;
     private ListView<Hylde> lvwHylder;
+
     public setPlaceringWindow(String title, Fad fad) {
         this.initStyle(StageStyle.UTILITY);
         this.initModality(Modality.APPLICATION_MODAL);
@@ -33,6 +35,7 @@ public class setPlaceringWindow extends Stage {
         Scene scene = new Scene(pane);
         this.setScene(scene);
     }
+
     private void initContent(GridPane pane) {
         pane.setPadding(new Insets(10));
         pane.setHgap(10);
@@ -44,7 +47,7 @@ public class setPlaceringWindow extends Stage {
 
         lvwLagre = new ListView<>();
         lvwLagre.getItems().setAll(Storage.getLagre());
-        pane.add(lvwLagre, 0 , 1);
+        pane.add(lvwLagre, 0, 1);
 
         Label lblReoler = new Label("Reol");
         pane.add(lblReoler, 1, 0);
@@ -61,7 +64,13 @@ public class setPlaceringWindow extends Stage {
         Button btnSetPlacering = new Button("Set hyldeplacering");
         btnSetPlacering.setOnAction(event -> this.setPlaceringAction());
         pane.add(btnSetPlacering, 2, 2);
+
+        ChangeListener<Lager> lagerListener = (ov, oldLager, newLager) -> this.updateControls();
+        lvwLagre.getSelectionModel().selectedItemProperty().addListener(lagerListener);
+        ChangeListener<Reol> reolListener = (ov, oldReol, newReol) -> this.updateControls();
+        lvwReoler.getSelectionModel().selectedItemProperty().addListener(reolListener);
     }
+
     private void setPlaceringAction() {
         try {
             Lager lager = lvwLagre.getSelectionModel().getSelectedItem();
@@ -78,5 +87,17 @@ public class setPlaceringWindow extends Stage {
             alert.showAndWait();
         }
 
+    }
+
+    private void updateControls() {
+        Lager selectedLager = lvwLagre.getSelectionModel().getSelectedItem();
+        if (selectedLager != null) {
+            lvwReoler.getItems().setAll(selectedLager.getReoler());
+        }
+        Reol selectedReol = lvwReoler.getSelectionModel().getSelectedItem();
+        if (selectedReol != null) {
+            lvwHylder.getItems().setAll(selectedReol.getHylder());
+        }
+        lvwLagre.getItems().setAll(Storage.getLagre());
     }
 }

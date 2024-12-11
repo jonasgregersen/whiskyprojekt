@@ -161,7 +161,10 @@ public class FadPane extends GridPane {
         lvwFad.getSelectionModel().select(index);
     }
     private void setPlaceringAction() {
-
+        Fad fad = lvwFad.getSelectionModel().getSelectedItem();
+        setPlaceringWindow dia = new setPlaceringWindow("Set placering", fad);
+        dia.showAndWait();
+        updateControls();
     }
     private void fjernFadAction() {
         Fad fad = lvwFad.getSelectionModel().getSelectedItem();
