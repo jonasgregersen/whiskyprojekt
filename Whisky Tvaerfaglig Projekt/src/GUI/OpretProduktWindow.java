@@ -79,7 +79,9 @@ public class OpretProduktWindow extends Stage {
         double volumeKapacitet = Double.parseDouble(txfVolumeKapacitet.getText().trim());
 
         try {
-            Controller.opretProdukt(navn, produktBatch, valgtTapning, volumeKapacitet).setLagerPlacering(lager);
+            WhiskyProdukt produkt = Controller.opretProdukt(navn, produktBatch, valgtTapning, volumeKapacitet);
+            produkt.setLagerPlacering(lager);
+            Controller.tilførTapningTilProdukt(valgtTapning, produkt);
             this.hide();
         } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);

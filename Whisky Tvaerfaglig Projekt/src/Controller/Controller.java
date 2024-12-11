@@ -76,7 +76,7 @@ public class Controller {
     }
 
     public static void tapFadEksisterendeTapning(Tapning tapning, Fad fad, double tapMængde) {
-        if (tapning == null || fad == null || tapMængde <= 0 || fad.getNuværendeIndhold() < tapMængde) {
+        if (tapning == null || fad == null || tapMængde <= 0 || fad.getNuværendeIndhold() - tapMængde < 0) {
             throw new IllegalArgumentException("Ugyldige data eller utilstrækkelig mængde i fad.");
         }
         fad.tap(tapning, tapMængde);
@@ -96,6 +96,7 @@ public class Controller {
 
     public static void tilførTapningTilProdukt(Tapning tapning, WhiskyProdukt produkt) {
         produkt.setVæskeBlanding(tapning);
+        tapning.tilførProdukt(produkt);
     }
 
     public static void setProduktPlacering(WhiskyProdukt p, Lager l) {
