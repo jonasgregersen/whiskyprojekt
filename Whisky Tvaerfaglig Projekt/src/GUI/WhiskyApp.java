@@ -18,16 +18,16 @@ public class WhiskyApp {
         Reol reol4 = sall.opretReol("R4");
         Reol reol5 = sall.opretReol("R5");
 
-        Hylde hylde1 = reol1.opretHylde("H1", 4);  // 4 pladser på H1
-        Hylde hylde2 = reol1.opretHylde("H2", 4);  // 4 pladser på H2
-        Hylde hylde3 = reol2.opretHylde("H3", 4);  // 4 pladser på H3
-        Hylde hylde4 = reol2.opretHylde("H4", 4);  // 4 pladser på H4
-        Hylde hylde5 = reol3.opretHylde("H5", 4);  // 4 pladser på H5
-        Hylde hylde6 = reol3.opretHylde("H6", 4);  // 4 pladser på H6
-        Hylde hylde7 = reol4.opretHylde("H7", 4);  // 4 pladser på H7
-        Hylde hylde8 = reol4.opretHylde("H8", 4);  // 4 pladser på H8
-        Hylde hylde9 = reol5.opretHylde("H9", 4);  // 4 pladser på H9
-        Hylde hylde10 = reol5.opretHylde("H10", 4); // 4 pladser på H10
+        Hylde hylde1 = reol1.opretHylde("H1", 4);
+        Hylde hylde2 = reol1.opretHylde("H2", 4);
+        Hylde hylde3 = reol2.opretHylde("H3", 4);
+        Hylde hylde4 = reol2.opretHylde("H4", 4);
+        Hylde hylde5 = reol3.opretHylde("H5", 4);
+        Hylde hylde6 = reol3.opretHylde("H6", 4);
+        Hylde hylde7 = reol4.opretHylde("H7", 4);
+        Hylde hylde8 = reol4.opretHylde("H8", 4);
+        Hylde hylde9 = reol5.opretHylde("H9", 4);
+        Hylde hylde10 = reol5.opretHylde("H10", 4);
 
         Placering placering1 = new Placering(sall, reol1, hylde1);
         Placering placering2 = new Placering(sall, reol1, hylde2);
@@ -129,15 +129,13 @@ public class WhiskyApp {
         fad9.setDatoPåfyldning(LocalDate.of(2020, 12, 18));
         fad10.setDatoPåfyldning(LocalDate.of(2019, 9, 12));
 
-        // Opret tapning
-        Tapning tapning1 = Controller.opretTapning("TAP101", 50.0); // Fortyndingsmængde på 50 liter vand
-        Tapning tapning2 = Controller.opretTapning("TAP102", 30.0); // Fortyndingsmængde på 30 liter vand
+        Tapning tapning1 = Controller.opretTapning("TAP101", 50.0);
+        Tapning tapning2 = Controller.opretTapning("TAP102", 30.0);
 
-        // Tap fadene til tapningerne
-        Controller.tapFadEksisterendeTapning(tapning1, fad1, 10.0);  // Tap 100 liter fra fad1 til tapning1
-        Controller.tapFadEksisterendeTapning(tapning1, fad2, 8.0);   // Tap 80 liter fra fad2 til tapning1
-        Controller.tapFadEksisterendeTapning(tapning2, fad3, 15.0);  // Tap 150 liter fra fad3 til tapning2
-        Controller.tapFadEksisterendeTapning(tapning2, fad4, 12.0);  // Tap 120 liter fra fad4 til tapning2
+        Controller.tapFadEksisterendeTapning(tapning1, fad1, 10.0);
+        Controller.tapFadEksisterendeTapning(tapning1, fad2, 8.0);
+        Controller.tapFadEksisterendeTapning(tapning2, fad3, 15.0);
+        Controller.tapFadEksisterendeTapning(tapning2, fad4, 12.0);
         Controller.tapFadEksisterendeTapning(tapning1, fad5, 20.0);
 
         WhiskyProdukt whisky1 = Controller.opretProdukt("Danmarks Finest", "BatchA-001", tapning1, 0.7);
@@ -149,9 +147,5 @@ public class WhiskyApp {
         whisky2.setLagerPlacering(sall);
         whisky3.setLagerPlacering(sall);
         whisky4.setLagerPlacering(sall);
-
-        //WhiskyProdukt p1 = Controller.opretProdukt("Whisky", "PB001", væskeBlanding,0.7);
-        //p1.setLagerPlacering(sall);
-        //System.out.println(p1.udskrivProduktionsProcess());
     }
 }
