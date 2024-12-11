@@ -74,7 +74,7 @@ public class RegistrerDestilleringWindow extends Stage {
         hbxButtons.getChildren().addAll(btnCancel, btnOk);
     }
     private void okAction() {
-        double mængde = råvareMængde;
+        double mængde = Double.parseDouble(txfMængde.getText());
         double alkoholProcent = Double.parseDouble(txfAlkoholProcent.getText().trim());
         try {
             Controller.registrerDestilleringsData(destillering, mængde, alkoholProcent);
