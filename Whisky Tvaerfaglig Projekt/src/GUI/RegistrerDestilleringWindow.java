@@ -78,7 +78,7 @@ public class RegistrerDestilleringWindow extends Stage {
         double alkoholProcent = Double.parseDouble(txfAlkoholProcent.getText().trim());
         try {
             Controller.registrerDestilleringsData(destillering, mængde, alkoholProcent);
-            destillering.tilføjRåvare(lager, råvare, mængde);
+            destillering.tilføjRåvare(lager, råvare, råvareMængde);
             this.hide();
         } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);

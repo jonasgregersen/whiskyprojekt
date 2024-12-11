@@ -60,6 +60,9 @@ public class Destillering implements Historikable{
         if (fad == null) {
             throw new IllegalArgumentException("Fadet skal angives");
         }
+        if (fad.getNuværendeIndhold() + mængde > fad.getKapacitet()) {
+            throw new IllegalArgumentException("Fadet kan ikke rumme den angivne mængde.");
+        }
         this.mængde -= mængde;
         fad.påfyld(this, mængde);
         fade.add(fad);
