@@ -21,6 +21,10 @@ public class setPlaceringWindow extends Stage {
     private ListView<Reol> lvwReoler;
     private ListView<Hylde> lvwHylder;
 
+    private Lager valgtLager;
+    private Reol valgtReol;
+    private Hylde valgtHylde;
+
     public setPlaceringWindow(String title, Fad fad) {
         this.initStyle(StageStyle.UTILITY);
         this.initModality(Modality.APPLICATION_MODAL);
@@ -65,17 +69,34 @@ public class setPlaceringWindow extends Stage {
         btnSetPlacering.setOnAction(event -> this.setPlaceringAction());
         pane.add(btnSetPlacering, 2, 2);
 
-        ChangeListener<Lager> lagerListener = (ov, oldLager, newLager) -> this.updateControls();
-        lvwLagre.getSelectionModel().selectedItemProperty().addListener(lagerListener);
-        ChangeListener<Reol> reolListener = (ov, oldReol, newReol) -> this.updateControls();
-        lvwReoler.getSelectionModel().selectedItemProperty().addListener(reolListener);
+        lvwLagre.getSelectionModel().selectedItemProperty().addListener((ov, oldLager, newLager) -> {
+            valgtLager = newLager;
+            if (valgtLager != null) {
+                lvwReoler.getItems().setAll(valgtLager.getReoler());
+                valgtReol = null;
+                lvwHylder.getItems().clear();
+                valgtHylde = null;
+            }
+        });
+
+        lvwReoler.getSelectionModel().selectedItemProperty().addListener((ov, oldReol, newReol) -> {
+            valgtReol = newReol;
+            if (valgtReol != null) {
+                lvwHylder.getItems().setAll(valgtReol.getHylder());
+                valgtHylde = null;
+            }
+        });
+
+        lvwHylder.getSelectionModel().selectedItemProperty().addListener((ov, oldHylde, newHylde) -> {
+            valgtHylde = newHylde;
+        });
     }
 
     private void setPlaceringAction() {
         try {
-            Lager lager = lvwLagre.getSelectionModel().getSelectedItem();
-            Reol reol = lvwReoler.getSelectionModel().getSelectedItem();
-            Hylde hylde = lvwHylder.getSelectionModel().getSelectedItem();
+            Lager lager = valgtLager;
+            Reol reol = valgtReol;
+            Hylde hylde = valgtHylde;
             Placering placering = new Placering(lager, reol, hylde);
             fad.setPlacering(placering);
             this.hide();
