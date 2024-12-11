@@ -98,6 +98,10 @@ public class FadPane extends GridPane {
         hbxButtons.getChildren().add(btnCreate);
         btnCreate.setOnAction(event -> this.createFadAction());
 
+        Button btnPåfyldDato = new Button("Set påfyldningsdato");
+        hbxButtons.getChildren().add(btnPåfyldDato);
+        btnPåfyldDato.setOnAction(event -> this.setPåfyldningsDatoAction());
+
         Button btnPlacering = new Button("Set fadplacering");
         hbxButtons.getChildren().add(btnPlacering);
         btnPlacering.setOnAction(event -> this.setPlaceringAction());
@@ -221,6 +225,12 @@ public class FadPane extends GridPane {
             lvwFad.getItems().setAll(modneFad);
         }
         lvwFad.refresh();
+    }
+    private void setPåfyldningsDatoAction() {
+        Fad fad = lvwFad.getSelectionModel().getSelectedItem();
+        SetPåfyldningsDatoWindow dia = new SetPåfyldningsDatoWindow("Set påfyldningsdato", fad);
+        dia.showAndWait();
+        updateControls();
     }
     // ------------------------------------------------------------------------
 

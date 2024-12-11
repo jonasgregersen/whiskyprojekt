@@ -125,10 +125,18 @@ public class TapWindow extends Stage {
     }
 
     private void okAction() {
-        Tapning tapning = lvwTapninger.getSelectionModel().getSelectedItem();
-        double tapningsMængde = Double.parseDouble(txfTapMængde.getText());
-        Controller.tapFadEksisterendeTapning(tapning, fad, tapningsMængde);
-        this.hide();
+        try {
+            Tapning tapning = lvwTapninger.getSelectionModel().getSelectedItem();
+            double tapningsMængde = Double.parseDouble(txfTapMængde.getText());
+            Controller.tapFadEksisterendeTapning(tapning, fad, tapningsMængde);
+            this.hide();
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText(e.getMessage());
+            alert.setTitle("Tap fad");
+            alert.setHeaderText("Kan ikke tappe fad");
+            alert.showAndWait();
+        }
     }
     private void OpretTapningAction() {
         NyTapningWindow dia = new NyTapningWindow("Opret tapning");
