@@ -87,6 +87,10 @@ public class OpretDestilleringWindow extends Stage {
         String spiritBatch = txfSpiritBatch.getText().trim();
         try {
             Controller.opretDestillering(startDato, slutDato, spiritBatch);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Opret destillering");
+            alert.setHeaderText(spiritBatch + " oprettet.");
+            alert.showAndWait();
             this.hide();
         } catch (Exception e){
             Alert alert = new Alert(Alert.AlertType.ERROR);

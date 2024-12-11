@@ -99,6 +99,10 @@ public class setPlaceringWindow extends Stage {
             Hylde hylde = valgtHylde;
             Placering placering = new Placering(lager, reol, hylde);
             fad.setPlacering(placering);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Set placering");
+            alert.setHeaderText(fad.getFadNr() + " placeret i " + placering.toString());
+            alert.showAndWait();
             this.hide();
         } catch (IllegalArgumentException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);

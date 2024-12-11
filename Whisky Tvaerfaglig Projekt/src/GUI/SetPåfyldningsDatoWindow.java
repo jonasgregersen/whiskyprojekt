@@ -59,6 +59,10 @@ public class SetPåfyldningsDatoWindow extends Stage {
     private void okAction() {
         try {
             fad.setDatoPåfyldning(dpPåfyld.getValue());
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Sæt påfyldningsdato");
+            alert.setHeaderText("Påfyldningsdato sat til " + dpPåfyld.getValue());
+            alert.showAndWait();
             this.hide();
         } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);

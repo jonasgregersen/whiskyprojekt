@@ -8,10 +8,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
@@ -118,6 +115,10 @@ public class TilførRåvareWindow extends Stage {
             throw new IllegalArgumentException("Råvare mængden skal være over 0.");
         }
         registrerDestilleringWindow.setRåvare(lager, råvare, råvareMængde);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Tilfør råvare");
+        alert.setHeaderText(råvareMængde + " af " + råvare.getMaltBatch() + " tilføjet til " + destillering.getSpiritBatch());
+        alert.showAndWait();
         this.hide();
     }
 }

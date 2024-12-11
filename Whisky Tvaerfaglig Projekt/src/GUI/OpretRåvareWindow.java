@@ -93,6 +93,10 @@ public class OpretRåvareWindow extends Stage {
         Råvare.KornSort kornSort = cmbxKornSort.getSelectionModel().getSelectedItem();
         try {
             Controller.opretRåvare(lager, kornSort, maltBatchText, mængde);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Opret råvare");
+            alert.setHeaderText(maltBatchText + " - " + kornSort + " oprettet med mængde på " + mængde + ".");
+            alert.showAndWait();
             this.hide();
         } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);

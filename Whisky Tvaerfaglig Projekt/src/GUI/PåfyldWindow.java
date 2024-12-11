@@ -97,6 +97,10 @@ public class PåfyldWindow extends Stage {
         double mængde = Double.parseDouble(txfPåfyldMængde.getText());
         try {
             Controller.tilførDestilleringTilFad(destillering, fad, mængde);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Tilfør fad");
+            alert.setHeaderText("Fadnr. " + fad.getFadNr() + " påfyldt med " + mængde + " liter fra " + destillering.getSpiritBatch());
+            alert.showAndWait();
             this.hide();
         } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);

@@ -3,6 +3,7 @@ package GUI;
 import Model.Reol;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -64,9 +65,13 @@ public class OpretHyldeWindow extends Stage {
         hbxButtons.getChildren().addAll(cancelButton, okButton);
     }
     private void okButtonAction() {
-        String reolId = txfHyldeId.getText();
+        String hyldeId = txfHyldeId.getText();
         int kapacitet = Integer.parseInt(txfKapacitet.getText());
-        reol.opretHylde(reolId, kapacitet);
+        reol.opretHylde(hyldeId, kapacitet);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Opret hylde");
+        alert.setHeaderText("Hylde: " + hyldeId + " oprettet.");
+        alert.showAndWait();
         this.hide();
     }
 }

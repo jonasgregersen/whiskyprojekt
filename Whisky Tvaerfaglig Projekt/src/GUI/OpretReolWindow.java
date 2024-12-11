@@ -1,8 +1,10 @@
 package GUI;
 
+import Controller.Controller;
 import Model.Lager;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -59,6 +61,10 @@ public class OpretReolWindow extends Stage {
     private void okButtonAction() {
         String reolId = txfReolId.getText();
         lager.opretReol(reolId);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Opret reol");
+        alert.setHeaderText("Reol: " + reolId + " oprettet.");
+        alert.showAndWait();
         this.hide();
     }
 }

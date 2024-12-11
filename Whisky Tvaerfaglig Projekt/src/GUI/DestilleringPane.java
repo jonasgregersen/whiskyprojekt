@@ -13,6 +13,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.util.List;
+import java.util.Optional;
 
 public class DestilleringPane extends GridPane {
     private TextField txfStartDato, txfSlutDato, txfMaltBatch, txfIndhold, txfAlkoholProcent;
@@ -92,7 +93,23 @@ public class DestilleringPane extends GridPane {
 
         Button btnDelete = new Button("Fjern destillering");
         hbxButtons.getChildren().add(btnDelete);
-        btnDelete.setOnAction(event -> this.fjernDestilleringAction());
+        btnDelete.setOnAction(event -> {
+            Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
+            confirmationAlert.setTitle("Bekræft handling");
+            confirmationAlert.setHeaderText("Vil du slette destillering?");
+
+            ButtonType okButton = new ButtonType("Ok");
+            ButtonType cancelButton = new ButtonType("Cancel");
+            confirmationAlert.getButtonTypes().setAll(cancelButton, okButton);
+
+            Optional<ButtonType> result = confirmationAlert.showAndWait();
+
+            if (result.isPresent() && result.get() == okButton) {
+                fjernDestilleringAction();
+            } else {
+                confirmationAlert.hide();
+            }
+        });
 
         HBox hbxButtons2 = new HBox(40);
         this.add(hbxButtons2,0,4);

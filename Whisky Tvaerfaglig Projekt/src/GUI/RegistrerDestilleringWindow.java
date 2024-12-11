@@ -79,6 +79,10 @@ public class RegistrerDestilleringWindow extends Stage {
         try {
             Controller.registrerDestilleringsData(destillering, mængde, alkoholProcent);
             destillering.tilføjRåvare(lager, råvare, råvareMængde);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Registrer destillering");
+            alert.setHeaderText(destillering.getSpiritBatch() + " data registreret.");
+            alert.showAndWait();
             this.hide();
         } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);

@@ -80,7 +80,8 @@ public class WhiskyProdukt {
         sbResult.append("Navn: " + navn + "\n");
         sbResult.append("Type: " + type + "\n");
         sbResult.append("Produktbatch: " + produktBatch + "\n");
-        sbResult.append("Alkoholprocent " + Math.round(væskeBlanding.beregnAlkoholProcent()) + "%\n");
+        sbResult.append("Alkoholprocent: " + Math.round(væskeBlanding.beregnAlkoholProcent()) + "%\n");
+        sbResult.append("Volumen: " + indholdsKapacitet + " liter\n");
         sbResult.append("\nMaltbatch:\n");
         væskeBlanding.getFadVæske().forEach( (k,v) ->
                 k.getDestillater().forEach((d, f) -> sbResult.append(d.getMaltBatch() + " - "

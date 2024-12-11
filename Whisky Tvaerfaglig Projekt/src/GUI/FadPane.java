@@ -14,6 +14,7 @@ import javafx.scene.layout.HBox;
 
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Optional;
 
 public class FadPane extends GridPane {
     private TextField txfIndhold, txfAlkoPct, txfDatoPåfyldning, txfSlutDato, txfKlarTilTapning, txfKapacitet;
@@ -115,7 +116,23 @@ public class FadPane extends GridPane {
 
         Button btnDelete = new Button("Fjern fad");
         hbxButtons.getChildren().add(btnDelete);
-        btnDelete.setOnAction(event -> this.fjernFadAction());
+        btnDelete.setOnAction(event -> {
+            Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
+            confirmationAlert.setTitle("Bekræft handling");
+            confirmationAlert.setHeaderText("Vil du slette fad?");
+
+            ButtonType okButton = new ButtonType("Ok");
+            ButtonType cancelButton = new ButtonType("Cancel");
+            confirmationAlert.getButtonTypes().setAll(cancelButton, okButton);
+
+            Optional<ButtonType> result = confirmationAlert.showAndWait();
+
+            if (result.isPresent() && result.get() == okButton) {
+                fjernFadAction();
+            } else {
+                confirmationAlert.hide();
+            }
+        });
 
         HBox hbxFadButtons = new HBox(40);
         this.add(hbxFadButtons, 0 , 5);

@@ -129,6 +129,10 @@ public class TapWindow extends Stage {
             Tapning tapning = lvwTapninger.getSelectionModel().getSelectedItem();
             double tapningsMængde = Double.parseDouble(txfTapMængde.getText());
             Controller.tapFadEksisterendeTapning(tapning, fad, tapningsMængde);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Tap fad");
+            alert.setHeaderText("Fadnr. " + fad.getFadNr() + " tappet til " + tapning.getTapningsBatch() + " med " + tapningsMængde + " liter.");
+            alert.showAndWait();
             this.hide();
         } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);

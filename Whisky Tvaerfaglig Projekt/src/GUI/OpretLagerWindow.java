@@ -4,6 +4,7 @@ import Controller.Controller;
 import Model.Lager;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -61,6 +62,10 @@ public class OpretLagerWindow extends Stage {
         int lagerId = Integer.parseInt(txfLagerId.getText());
         String lagerNavn = txfLagerNavn.getText().trim();
         Controller.opretLager(lagerId, lagerNavn);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Opret lager");
+        alert.setHeaderText("Lager: " + lagerId + " - " + lagerNavn + " oprettet.");
+        alert.showAndWait();
         this.hide();
     }
 

@@ -82,6 +82,10 @@ public class OpretProduktWindow extends Stage {
             WhiskyProdukt produkt = Controller.opretProdukt(navn, produktBatch, valgtTapning, volumeKapacitet);
             produkt.setLagerPlacering(lager);
             Controller.tilførTapningTilProdukt(valgtTapning, produkt);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Opret produkt");
+            alert.setHeaderText(navn + " - " + produktBatch + " oprettet.");
+            alert.showAndWait();
             this.hide();
         } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);

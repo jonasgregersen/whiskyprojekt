@@ -5,10 +5,7 @@ import Model.Fad;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -86,6 +83,10 @@ public class NyTapningWindow extends Stage {
             String tapningsBatch = txfTapningBatch.getText();
             double fortyndingsMængde = Double.parseDouble(txfFortyndingsMængde.getText());
             Controller.opretTapning(tapningsBatch, fortyndingsMængde);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Opret tapning");
+            alert.setHeaderText(tapningsBatch + " oprettet med fortyndingsmængde på " + fortyndingsMængde + " liter.");
+            alert.showAndWait();
             this.hide();
         } catch (Exception e) {
             e.printStackTrace();

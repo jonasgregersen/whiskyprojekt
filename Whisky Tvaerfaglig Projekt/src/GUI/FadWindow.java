@@ -68,7 +68,7 @@ public class FadWindow extends Stage {
         pane.add(cmbxFadType, 1, 1);
         cmbxFadType.getItems().setAll(Fad.FadType.values());
 
-        Label lblIndkøbt = new Label("Indkøbt");
+        Label lblIndkøbt = new Label("Indkøbt fra");
         pane.add(lblIndkøbt, 1, 2);
 
         txfIndkøbt = new TextField();
@@ -117,6 +117,10 @@ public class FadWindow extends Stage {
         String indkøbt = txfIndkøbt.getText().trim();
         try {
             Controller.opretFad(fadNr, fadType, kapacitet, indkøbt);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Opret fad");
+            alert.setHeaderText("Fadnr. " + fadNr + " oprettet - kapacitet: " + kapacitet + ", fadtype: " + fadType + ", indkøbt fra " + indkøbt);
+            alert.showAndWait();
             this.hide();
         } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
