@@ -92,6 +92,7 @@ public class DestilleringPane extends GridPane {
 
         Button btnDelete = new Button("Fjern destillering");
         hbxButtons.getChildren().add(btnDelete);
+        btnDelete.setOnAction(event -> this.fjernDestilleringAction());
 
         HBox hbxButtons2 = new HBox(40);
         this.add(hbxButtons2,0,4);
