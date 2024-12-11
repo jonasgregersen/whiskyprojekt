@@ -150,7 +150,7 @@ public class FadPane extends GridPane {
     }
 
     private void createFadAction() {
-        OpretDestilleringWindow dia = new OpretDestilleringWindow("Opret fad");
+        FadWindow dia = new FadWindow("Opret fad");
         dia.showAndWait();
         updateControls();
 
