@@ -1,5 +1,6 @@
 package GUI;
 
+import Controller.Controller;
 import Model.Destillering;
 import Model.Fad;
 import Storage.Storage;
@@ -97,12 +98,9 @@ public class FadPane extends GridPane {
         hbxButtons.getChildren().add(btnCreate);
         btnCreate.setOnAction(event -> this.createFadAction());
 
-        Button btnUpdate = new Button("Opdater fad");
-        hbxButtons.getChildren().add(btnUpdate);
-
-
         Button btnDelete = new Button("Fjern fad");
         hbxButtons.getChildren().add(btnDelete);
+        btnDelete.setOnAction(event -> this.fjernFadAction());
 
         HBox hbxFadButtons = new HBox(40);
         this.add(hbxFadButtons, 0 , 4);
@@ -157,6 +155,19 @@ public class FadPane extends GridPane {
         lvwFad.getItems().setAll(Storage.getFade());
         int index = lvwFad.getItems().size() - 1;
         lvwFad.getSelectionModel().select(index);
+    }
+    private void fjernFadAction() {
+        Fad fad = lvwFad.getSelectionModel().getSelectedItem();
+        try {
+            Controller.fjernFad(fad);
+        } catch (Exception e){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Fjern fad");
+            alert.setHeaderText("Kan ikke fjerne fad.");
+            alert.setContentText(e.getMessage());
+            alert.showAndWait();
+        }
+        lvwFad.getItems().setAll(Storage.getFade());
     }
     private void seFadHistorikAction() {
         Fad fad = lvwFad.getSelectionModel().getSelectedItem();

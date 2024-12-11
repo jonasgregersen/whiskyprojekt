@@ -17,6 +17,13 @@ public class Controller {
             throw new IllegalArgumentException(e);
         }
     }
+    public static void fjernFad(Fad fad) throws IllegalArgumentException{
+        if (Storage.getFade().contains(fad)) {
+            Storage.removeFad(fad);
+        } else {
+            throw new IllegalArgumentException("Fadet findes ikke i storage.");
+        }
+    }
     public static Lager opretLager(int id, String navn) {
         Lager lager = new Lager(id, navn);
         Storage.addLager(lager);
