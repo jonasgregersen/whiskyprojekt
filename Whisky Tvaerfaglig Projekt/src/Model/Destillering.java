@@ -65,7 +65,9 @@ public class Destillering implements Historikable{
         }
         this.mængde -= mængde;
         fad.påfyld(this, mængde);
-        fade.add(fad);
+        if (!fade.contains(fad)) {
+            fade.add(fad);
+        }
         registrerHændelse("Tilførelse", "Spiritbatch: " + spiritBatch + " påfyldt fadNr. " + fad.getFadNr() + ", " + mængde + " liter. Resterende mængde: " + this.mængde);
     }
 

@@ -4,20 +4,20 @@ import Controller.Controller;
 import Model.Destillering;
 import Model.Fad;
 import Storage.Storage;
+import javafx.beans.value.ChangeListener;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-import java.util.concurrent.LinkedBlockingQueue;
-
 public class PåfyldWindow extends Stage {
     private ListView<Fad> fade;
-    private TextField txfMængde;
+    private TextField txfPåfyldMængde, txfFadIndhold, txfFadKapacitet;
     private Destillering destillering;
     public PåfyldWindow(String title, Destillering destillering) {
         this.initStyle(StageStyle.UTILITY);
@@ -46,11 +46,37 @@ public class PåfyldWindow extends Stage {
         pane.add(fade,0,1);
         fade.getItems().addAll(Storage.getFade());
 
-        Label lblMængde = new Label("Påflydningsmængde:");
-        pane.add(lblMængde, 1, 1);
+        VBox vbxInfo = new VBox(20);
+        pane.add(vbxInfo, 1, 1);
 
-        txfMængde = new TextField();
-        pane.add(txfMængde, 2, 1);
+        HBox hbxKapacitet = new HBox(20);
+        vbxInfo.getChildren().add(hbxKapacitet);
+
+        Label lblFadKapacitet = new Label("Fad kapacitet:");
+        hbxKapacitet.getChildren().add(lblFadKapacitet);
+
+        txfFadKapacitet = new TextField();
+        txfFadKapacitet.setEditable(false);
+        hbxKapacitet.getChildren().add(txfFadKapacitet);
+
+        HBox hbxIndhold = new HBox(20);
+        vbxInfo.getChildren().add(hbxIndhold);
+
+        Label lblFadIndhold = new Label("Fad nuværende indhold:");
+        hbxIndhold.getChildren().add(lblFadIndhold);
+
+        txfFadIndhold = new TextField();
+        txfFadIndhold.setEditable(false);
+        hbxIndhold.getChildren().add(txfFadIndhold);
+
+        HBox hbxPåfyld = new HBox(20);
+        pane.add(hbxPåfyld,0,2);
+
+        Label lblPåfyldMængde = new Label("Påflydningsmængde:");
+        hbxPåfyld.getChildren().add(lblPåfyldMængde);
+
+        txfPåfyldMængde = new TextField();
+        hbxPåfyld.getChildren().add(txfPåfyldMængde);
 
         HBox hbxButtons = new HBox(40);
         pane.add(hbxButtons, 0, 4);
@@ -62,10 +88,13 @@ public class PåfyldWindow extends Stage {
         btnOk.setOnAction(event -> this.okAction());
 
         hbxButtons.getChildren().addAll(btnCancel, btnOk);
+
+        ChangeListener<Fad> fadListener = (ov, oldFad, newFad) -> this.updateControls();
+        fade.getSelectionModel().selectedItemProperty().addListener(fadListener);
         }
         private void okAction() {
         Fad fad = fade.getSelectionModel().getSelectedItem();
-        double mængde = Double.parseDouble(txfMængde.getText());
+        double mængde = Double.parseDouble(txfPåfyldMængde.getText());
         try {
             Controller.tilførDestilleringTilFad(destillering, fad, mængde);
             this.hide();
@@ -76,5 +105,11 @@ public class PåfyldWindow extends Stage {
             alert.setHeaderText("Kan ikke påfylde fad.");
             alert.showAndWait();
         }
+    }
+    private void updateControls() {
+        Fad fad = fade.getSelectionModel().getSelectedItem();
+        txfFadKapacitet.setText(Double.toString(fad.getKapacitet()));
+        txfFadIndhold.setText(Double.toString(fad.getNuværendeIndhold()));
+        
     }
 }

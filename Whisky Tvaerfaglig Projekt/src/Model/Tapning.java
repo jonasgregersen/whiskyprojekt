@@ -64,6 +64,9 @@ public class Tapning {
         return reduceretVæskeMap;
     }
     public void tilførProdukt(WhiskyProdukt produkt) {
+        if (totalMængde - produkt.getIndholdsKapacitet() < 0) {
+            throw new IllegalArgumentException("Der er ikke nok væske i tapning.");
+        }
         produkt.setVæskeBlanding(this);
         this.totalMængde -= produkt.getIndholdsKapacitet();
         fadVæske = beregnReduceretVæske(produkt.getIndholdsKapacitet());
@@ -79,5 +82,8 @@ public class Tapning {
     }
     public String getTapningsBatch() {
         return tapningsBatch;
+    }
+    public double getTotalMængde() {
+        return totalMængde;
     }
 }

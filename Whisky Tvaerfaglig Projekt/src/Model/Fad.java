@@ -184,7 +184,7 @@ public class Fad implements Historikable {
     }
 
     public String toString() {
-        return "FadNr: " + fadNr + ", af type: " + fadType.toString() + ", " + kapacitet + " liter";
+        return "FadNr: " + fadNr + ", af type: " + fadType.toString();
     }
 
     public double getNuværendeIndhold() {

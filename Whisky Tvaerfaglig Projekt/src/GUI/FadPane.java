@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 public class FadPane extends GridPane {
-    private TextField txfIndhold, txfAlkoPct, txfDatoPåfyldning, txfSlutDato, txfKlarTilTapning;
+    private TextField txfIndhold, txfAlkoPct, txfDatoPåfyldning, txfSlutDato, txfKlarTilTapning, txfKapacitet;
     private TextArea txaDestilleringer, txaCustms, txaPlacering;
     private ListView<Fad> lvwFad;
     private ToggleButton tgbtnModneFad;
@@ -40,11 +40,18 @@ public class FadPane extends GridPane {
         lvwFad.getSelectionModel().selectedItemProperty().addListener(listener);
 
         Label lblIndhold = new Label("Nuværende indhold:");
-        this.add(lblIndhold, 1, 2);
+        this.add(lblIndhold, 1, 3);
 
         txfIndhold = new TextField();
-        this.add(txfIndhold, 2, 2);
+        this.add(txfIndhold, 2, 3);
         txfIndhold.setEditable(false);
+
+        Label lblKapacitet = new Label("Kapacitet:");
+        this.add(lblKapacitet, 1,2);
+
+        txfKapacitet = new TextField();
+        this.add(txfKapacitet,2,2);
+        txfKapacitet.setEditable(false);
 
         Label lblStartDato = new Label("Påfyldningsdato:");
         this.add(lblStartDato, 1, 1);
@@ -54,43 +61,43 @@ public class FadPane extends GridPane {
         txfDatoPåfyldning.setEditable(false);
 
         Label lblKlarTilTapning = new Label("Status:");
-        this.add(lblKlarTilTapning, 1, 3);
+        this.add(lblKlarTilTapning, 1, 4);
 
         txfKlarTilTapning = new TextField();
-        this.add(txfKlarTilTapning, 2, 3);
+        this.add(txfKlarTilTapning, 2, 4);
         txfKlarTilTapning.setEditable(false);
 
         Label lblAlkoPct = new Label("Alkohol procent:");
-        this.add(lblAlkoPct, 1, 4);
+        this.add(lblAlkoPct, 1, 5);
 
         txfAlkoPct = new TextField();
-        this.add(txfAlkoPct, 2, 4);
+        this.add(txfAlkoPct, 2, 5);
         txfAlkoPct.setEditable(false);
 
         Label lblPlacering = new Label("Placering:");
-        this.add(lblPlacering, 1, 5);
+        this.add(lblPlacering, 1, 6);
         GridPane.setValignment(lblPlacering, VPos.BASELINE);
         lblPlacering.setPadding(new Insets(4, 0, 4, 0));
 
         txaPlacering = new TextArea();
-        this.add(txaPlacering, 2, 5);
+        this.add(txaPlacering, 2, 6);
         txaPlacering.setPrefHeight(60);
         txaPlacering.setPrefWidth(300);
         txaPlacering.setEditable(false);
 
         Label lblDestilleringer = new Label("Destilleringer");
-        this.add(lblDestilleringer, 1, 6);
+        this.add(lblDestilleringer, 1, 7);
         GridPane.setValignment(lblDestilleringer, VPos.BASELINE);
         lblDestilleringer.setPadding(new Insets(4, 0, 4, 0));
 
         txaDestilleringer = new TextArea();
-        this.add(txaDestilleringer, 2, 6);
+        this.add(txaDestilleringer, 2, 7);
         txaDestilleringer.setPrefWidth(300);
         txaDestilleringer.setPrefHeight(100);
         txaDestilleringer.setEditable(false);
 
         HBox hbxButtons = new HBox(40);
-        this.add(hbxButtons, 0, 7, 3, 1);
+        this.add(hbxButtons, 0, 8, 3, 1);
         hbxButtons.setPadding(new Insets(10, 0, 0, 0));
         hbxButtons.setAlignment(Pos.BASELINE_CENTER);
 
@@ -111,7 +118,7 @@ public class FadPane extends GridPane {
         btnDelete.setOnAction(event -> this.fjernFadAction());
 
         HBox hbxFadButtons = new HBox(40);
-        this.add(hbxFadButtons, 0 , 4);
+        this.add(hbxFadButtons, 0 , 5);
 
         Button btnHistorik = new Button("Se historik");
         btnHistorik.setOnAction(event -> this.seFadHistorikAction());
@@ -142,6 +149,7 @@ public class FadPane extends GridPane {
         txaPlacering.setText(fad.getPlacering() == null ? "Ikke angivet" : fad.getPlacering().toString());
         txfAlkoPct.setText(fad.getNuværendeIndhold() == 0 ? "Fadet er tomt" : Double.toString(Math.round(fad.beregnAlkoholProcent())));
         txfDatoPåfyldning.setText(fad.getDatoPåfyldning() == null ? "Ikke angivet" : fad.getDatoPåfyldning().toString());
+        txfKapacitet.setText(Double.toString(fad.getKapacitet()));
         if (!fad.getDestillater().isEmpty()) {
             StringBuilder sbDest = new StringBuilder();
             for (Map.Entry<Destillering, Double> entry : fad.getDestillater().entrySet()) {
