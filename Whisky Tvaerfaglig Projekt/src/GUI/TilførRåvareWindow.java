@@ -113,7 +113,7 @@ public class TilførRåvareWindow extends Stage {
     private void okAction() {
         Lager lager = lvwLagre.getSelectionModel().getSelectedItem();
         Råvare råvare = lvwRåvarer.getSelectionModel().getSelectedItem();
-        double råvareMængde = Double.parseDouble(txfMængde.getText());
+        double råvareMængde = Double.parseDouble(txfTilfør.getText());
         if (råvareMængde <= 0) {
             throw new IllegalArgumentException("Råvare mængden skal være over 0.");
         }

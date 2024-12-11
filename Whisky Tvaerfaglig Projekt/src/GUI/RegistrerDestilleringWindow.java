@@ -74,7 +74,7 @@ public class RegistrerDestilleringWindow extends Stage {
         hbxButtons.getChildren().addAll(btnCancel, btnOk);
     }
     private void okAction() {
-        double mængde = Double.parseDouble(txfMængde.getText().trim());
+        double mængde = råvareMængde;
         double alkoholProcent = Double.parseDouble(txfAlkoholProcent.getText().trim());
         try {
             Controller.registrerDestilleringsData(destillering, mængde, alkoholProcent);
@@ -94,6 +94,7 @@ public class RegistrerDestilleringWindow extends Stage {
     }
     public void setRåvare(Lager lager, Råvare råvare, double råvareMængde) {
         this.råvare = råvare;
+        this.råvareMængde = råvareMængde;
         this.lager = lager;
         txfMaltBatch.setText(råvare.getMaltBatch());
     }

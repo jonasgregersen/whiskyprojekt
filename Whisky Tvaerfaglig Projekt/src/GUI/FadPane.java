@@ -98,6 +98,10 @@ public class FadPane extends GridPane {
         hbxButtons.getChildren().add(btnCreate);
         btnCreate.setOnAction(event -> this.createFadAction());
 
+        Button btnPlacering = new Button("Set fadplacering");
+        hbxButtons.getChildren().add(btnPlacering);
+        btnPlacering.setOnAction(event -> this.setPlaceringAction());
+
         Button btnDelete = new Button("Fjern fad");
         hbxButtons.getChildren().add(btnDelete);
         btnDelete.setOnAction(event -> this.fjernFadAction());
@@ -155,6 +159,9 @@ public class FadPane extends GridPane {
         lvwFad.getItems().setAll(Storage.getFade());
         int index = lvwFad.getItems().size() - 1;
         lvwFad.getSelectionModel().select(index);
+    }
+    private void setPlaceringAction() {
+
     }
     private void fjernFadAction() {
         Fad fad = lvwFad.getSelectionModel().getSelectedItem();

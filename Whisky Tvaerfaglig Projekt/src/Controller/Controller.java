@@ -111,5 +111,8 @@ public class Controller {
     public static void registrerDestilleringsData(Destillering destillering, double mængde, double alkoholProcent) {
         destillering.registrerDestilleringsData(alkoholProcent, mængde);
     }
+    public static void setFadPlacering(Fad fad, Placering placering) {
+        fad.setPlacering(placering);
+    }
 
 }

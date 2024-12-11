@@ -159,6 +159,7 @@ public class DestilleringPane extends GridPane {
             alert.setHeaderText("Kan ikke fjerne destillering");
             alert.showAndWait();
         }
+        lvwDestillering.getItems().setAll(Storage.getDestillater());
     }
     private void seDestilleringHistorikAction() {
         Destillering destillering = lvwDestillering.getSelectionModel().getSelectedItem();
