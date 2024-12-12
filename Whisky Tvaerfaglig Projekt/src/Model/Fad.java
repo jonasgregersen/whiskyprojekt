@@ -136,20 +136,20 @@ public class Fad implements Historikable {
         return beregnetAlkoholProcent;
     }
 
-    public void fjernDestillering(Destillering destillering) throws IllegalArgumentException {
-        if (!destillater.containsKey(destillering)){
-            throw new IllegalArgumentException("Destillering findes ikke i fadet.");
+    public void fjernDestillat(Destillering destillat) throws IllegalArgumentException {
+        if (!destillater.containsKey(destillat)){
+            throw new IllegalArgumentException("Destillat findes ikke i fadet.");
         }
-        double destilleringIndhold = destillater.get(destillering);
-        nuværendeIndhold -= destilleringIndhold;
-        destillater.remove(destillering);
-        destillering.fjernFad(this);
-        registrerHændelse("Fjern destillering", destillering.getSpiritBatch() + " fjernet fra fad nr. " + fadNr + " (" + destilleringIndhold + " liter).");
+        double destillatIndhold = destillater.get(destillat);
+        nuværendeIndhold -= destillatIndhold;
+        destillater.remove(destillat);
+        destillat.fjernFad(this);
+        registrerHændelse("Fjern destillat", destillat.getSpiritBatch() + " fjernet fra fad nr. " + fadNr + " (" + destillatIndhold + " liter).");
     }
 
     public void tømFad() {
         nuværendeIndhold = 0;
-        destillater.forEach((destillering, mængde) -> destillering.fjernFad(this));
+        destillater.forEach((destillat, mængde) -> destillat.fjernFad(this));
         destillater.clear();
         registrerHændelse("Tøm fad", "Fad nr. " + fadNr + " er blevet tømt.");
     }

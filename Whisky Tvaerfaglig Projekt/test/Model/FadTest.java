@@ -34,7 +34,7 @@ class FadTest {
     @Test
     void testPåfyld() {
         destillering.registrerDestilleringsData(65, 150);
-        Controller.tilførDestilleringTilFad(destillering, fad, 150);
+        Controller.tilførDestillatTilFad(destillering, fad, 150);
 
         assertEquals(150.0, fad.getNuværendeIndhold(), "Indholdet i fadet skal være 150 liter.");
         assertEquals(65.0, fad.beregnAlkoholProcent(), "Alkoholprocenten skal være 65%.");
@@ -45,7 +45,7 @@ class FadTest {
     void testPåfyldOverKapacitet() {
         destillering.registrerDestilleringsData(65, 250);
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            Controller.tilførDestilleringTilFad(destillering, fad, 250);
+            Controller.tilførDestillatTilFad(destillering, fad, 250);
         });
         assertEquals("Fadet kan ikke rumme den angivne mængde.", exception.getMessage());
     }
@@ -54,7 +54,7 @@ class FadTest {
     void testTap() {
         Tapning tapning = new Tapning("TP101", 0);
         destillering.registrerDestilleringsData(65,150);
-        Controller.tilførDestilleringTilFad(destillering,fad,150);
+        Controller.tilførDestillatTilFad(destillering,fad,150);
         fad.setDatoPåfyldning(LocalDate.of(2020,9,14));
         fad.tap(tapning,50.0);
 
@@ -65,7 +65,7 @@ class FadTest {
     void testTapForMeget() {
         Tapning tapning = new Tapning("TP101", 0);
         destillering.registrerDestilleringsData(65,150);
-        Controller.tilførDestilleringTilFad(destillering,fad,150);
+        Controller.tilførDestillatTilFad(destillering,fad,150);
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             fad.tap(tapning,200.0);
         });
@@ -111,8 +111,8 @@ class FadTest {
         Tapning tapning = new Tapning("TP101", 0);
         destillering1.registrerDestilleringsData(65, 120);
         destillering2.registrerDestilleringsData(65, 80);
-        Controller.tilførDestilleringTilFad(destillering1, fad1, 120);
-        Controller.tilførDestilleringTilFad(destillering2, fad1, 80);
+        Controller.tilførDestillatTilFad(destillering1, fad1, 120);
+        Controller.tilførDestillatTilFad(destillering2, fad1, 80);
         fad1.setDatoPåfyldning(LocalDate.of(2019,5,1));
 
 
@@ -152,13 +152,13 @@ class FadTest {
 
         destillering1.registrerDestilleringsData(65, 100);
         destillering2.registrerDestilleringsData(70, 100);
-        Controller.tilførDestilleringTilFad(destillering1, fad1, 100);
-        Controller.tilførDestilleringTilFad(destillering2, fad1, 100);
+        Controller.tilførDestillatTilFad(destillering1, fad1, 100);
+        Controller.tilførDestillatTilFad(destillering2, fad1, 100);
 
         assertEquals(67.5, fad1.beregnAlkoholProcent());
         assertEquals(200, fad1.getNuværendeIndhold());
 
-        fad1.fjernDestillering(destillering1);
+        fad1.fjernDestillat(destillering1);
 
         assertEquals(70, fad1.beregnAlkoholProcent());
         assertEquals(100, fad1.getNuværendeIndhold());

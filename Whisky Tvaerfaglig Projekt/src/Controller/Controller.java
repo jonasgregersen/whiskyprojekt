@@ -1,11 +1,9 @@
 package Controller;
 
-import GUI.RåvareLagerPane;
 import Model.*;
 import Storage.Storage;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 
 public class Controller {
     public static Fad opretFad(int fadNr, Fad.FadType fadType, double kapacitet, String indkøbt) throws IllegalArgumentException {
@@ -32,8 +30,8 @@ public class Controller {
         return lager;
     }
 
-    public static Destillering opretDestillering(LocalDate startDato, LocalDate slutDato, String batch) {
-        Destillering destillering = new Destillering(startDato, slutDato, batch);
+    public static Destillering opretDestillering(LocalDate startDato, LocalDate slutDato, String spiritBatch) {
+        Destillering destillering = new Destillering(startDato, slutDato, spiritBatch);
         Storage.addDestillat(destillering);
         return destillering;
     }
@@ -48,34 +46,15 @@ public class Controller {
         }
     }
 
-    public static ArrayList<Fad> fadKlarTilTapning() {
-        ArrayList<Fad> result = new ArrayList<>();
-        for (Fad f : Storage.getFade()) {
-            if (f.klarTilTapning()) {
-                result.add(f);
-            }
-        }
-        return result;
-    }
-
-    public static Fad getFadMedNr(int fadNr) {
-        for (Fad f : Storage.getFade()) {
-            if (f.getFadNr() == fadNr) {
-                return f;
-            }
-        }
-        return null;
-    }
-
-    public static void tilførDestilleringTilFad(Destillering destillering, Fad fad, double mængde) throws IllegalArgumentException {
+    public static void tilførDestillatTilFad(Destillering destillat, Fad fad, double mængde) throws IllegalArgumentException {
         try {
-            destillering.tilførFad(fad, mængde);
+            destillat.tilførFad(fad, mængde);
         } catch (Exception e) {
             throw e;
         }
     }
 
-    public static void tapFadEksisterendeTapning(Tapning tapning, Fad fad, double tapMængde) {
+    public static void tapFad(Tapning tapning, Fad fad, double tapMængde) {
         if (tapning == null || fad == null || tapMængde <= 0 || fad.getNuværendeIndhold() - tapMængde < 0) {
             throw new IllegalArgumentException("Ugyldige data eller utilstrækkelig mængde i fad.");
         }
@@ -88,8 +67,8 @@ public class Controller {
         return nyTapning;
     }
 
-    public static WhiskyProdukt opretProdukt(String navn, String produktBatch, Tapning væskeBlanding, double kapacitet) {
-        WhiskyProdukt produkt = new WhiskyProdukt(navn, produktBatch, væskeBlanding, kapacitet);
+    public static WhiskyProdukt opretProdukt(String navn, String produktBatch, Tapning tapning, double kapacitet) {
+        WhiskyProdukt produkt = new WhiskyProdukt(navn, produktBatch, tapning, kapacitet);
         Storage.addProdukt(produkt);
         return produkt;
     }
@@ -97,10 +76,6 @@ public class Controller {
     public static void tilførTapningTilProdukt(Tapning tapning, WhiskyProdukt produkt) {
         produkt.setVæskeBlanding(tapning);
         tapning.tilførProdukt(produkt);
-    }
-
-    public static void setProduktPlacering(WhiskyProdukt p, Lager l) {
-        l.tilføjProdukt(p);
     }
 
     public static Råvare opretRåvare(Lager lager, Råvare.KornSort kornSort, String maltBatch, double mængde) {

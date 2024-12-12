@@ -107,16 +107,16 @@ public class WhiskyApp {
         dest9.tilføjRåvare(sall, råvare4, 250.0);
         dest10.tilføjRåvare(sall, råvare5, 220.0);
 
-        Controller.tilførDestilleringTilFad(dest1, fad1, 150.0);
-        Controller.tilførDestilleringTilFad(dest2, fad2, 180.0);
-        Controller.tilførDestilleringTilFad(dest3, fad3, 170.0);
-        Controller.tilførDestilleringTilFad(dest4, fad4, 150.0);
-        Controller.tilførDestilleringTilFad(dest5, fad5, 200.0);
-        Controller.tilførDestilleringTilFad(dest6, fad6, 150.0);
-        Controller.tilførDestilleringTilFad(dest7, fad7, 180.0);
-        Controller.tilførDestilleringTilFad(dest8, fad8, 220.0);
-        Controller.tilførDestilleringTilFad(dest9, fad9, 180.0);
-        Controller.tilførDestilleringTilFad(dest10, fad10, 250.0);
+        Controller.tilførDestillatTilFad(dest1, fad1, 150.0);
+        Controller.tilførDestillatTilFad(dest2, fad2, 180.0);
+        Controller.tilførDestillatTilFad(dest3, fad3, 170.0);
+        Controller.tilførDestillatTilFad(dest4, fad4, 150.0);
+        Controller.tilførDestillatTilFad(dest5, fad5, 200.0);
+        Controller.tilførDestillatTilFad(dest6, fad6, 150.0);
+        Controller.tilførDestillatTilFad(dest7, fad7, 180.0);
+        Controller.tilførDestillatTilFad(dest8, fad8, 220.0);
+        Controller.tilførDestillatTilFad(dest9, fad9, 180.0);
+        Controller.tilførDestillatTilFad(dest10, fad10, 250.0);
 
         fad1.setDatoPåfyldning(LocalDate.of(2020, 4, 15));
         fad2.setDatoPåfyldning(LocalDate.of(2019, 1, 1));
@@ -132,11 +132,11 @@ public class WhiskyApp {
         Tapning tapning1 = Controller.opretTapning("TAP101", 50.0);
         Tapning tapning2 = Controller.opretTapning("TAP102", 30.0);
 
-        Controller.tapFadEksisterendeTapning(tapning1, fad1, 10.0);
-        Controller.tapFadEksisterendeTapning(tapning1, fad2, 8.0);
-        Controller.tapFadEksisterendeTapning(tapning2, fad3, 15.0);
-        Controller.tapFadEksisterendeTapning(tapning2, fad4, 12.0);
-        Controller.tapFadEksisterendeTapning(tapning1, fad5, 20.0);
+        Controller.tapFad(tapning1, fad1, 10.0);
+        Controller.tapFad(tapning1, fad2, 8.0);
+        Controller.tapFad(tapning2, fad3, 15.0);
+        Controller.tapFad(tapning2, fad4, 12.0);
+        Controller.tapFad(tapning1, fad5, 20.0);
 
         WhiskyProdukt whisky1 = Controller.opretProdukt("Danmarks Finest", "BatchA-001", tapning1, 0.7);
         WhiskyProdukt whisky2 = Controller.opretProdukt("Skotland Reserve", "BatchB-001", tapning2, 0.7);

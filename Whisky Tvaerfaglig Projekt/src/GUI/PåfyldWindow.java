@@ -96,7 +96,7 @@ public class PåfyldWindow extends Stage {
         Fad fad = fade.getSelectionModel().getSelectedItem();
         double mængde = Double.parseDouble(txfPåfyldMængde.getText());
         try {
-            Controller.tilførDestilleringTilFad(destillering, fad, mængde);
+            Controller.tilførDestillatTilFad(destillering, fad, mængde);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Tilfør fad");
             alert.setHeaderText("Fadnr. " + fad.getFadNr() + " påfyldt med " + mængde + " liter fra " + destillering.getSpiritBatch());

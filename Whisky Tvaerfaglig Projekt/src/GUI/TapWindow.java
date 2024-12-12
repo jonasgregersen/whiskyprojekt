@@ -11,7 +11,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -128,7 +127,7 @@ public class TapWindow extends Stage {
         try {
             Tapning tapning = lvwTapninger.getSelectionModel().getSelectedItem();
             double tapningsMængde = Double.parseDouble(txfTapMængde.getText());
-            Controller.tapFadEksisterendeTapning(tapning, fad, tapningsMængde);
+            Controller.tapFad(tapning, fad, tapningsMængde);
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Tap fad");
             alert.setHeaderText("Fadnr. " + fad.getFadNr() + " tappet til " + tapning.getTapningsBatch() + " med " + tapningsMængde + " liter.");

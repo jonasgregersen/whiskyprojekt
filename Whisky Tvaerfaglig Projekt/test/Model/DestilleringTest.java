@@ -5,7 +5,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
-import java.util.Queue;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -32,7 +31,7 @@ class DestilleringTest {
     void tilførFad() {
         Fad fad = new Fad(1, Fad.FadType.BOURBON, 300, "null");
         destillering.registrerDestilleringsData(65, 200);
-        Controller.tilførDestilleringTilFad(destillering, fad, 100);
+        Controller.tilførDestillatTilFad(destillering, fad, 100);
         Fad expected = fad;
         Fad actual = destillering.getTilførteFad().get(0);
 
