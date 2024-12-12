@@ -54,8 +54,11 @@ public class Destillering implements Historikable{
         if (this.mængde - mængde < 0) {
             throw new IllegalArgumentException("Ikke nok væske i destilleringen.");
         }
-        if (this.mængde == 0 || this.alkoholProcent == 0) {
-            throw new NullPointerException("Kan ikke tilføre fad uden destillerings data.");
+        if (mængde <= 0) {
+            throw new IllegalArgumentException("Påfyldningsmængden skal være over 0.");
+        }
+        if (this.mængde == 0) {
+            throw new NullPointerException("Fadet er tomt.");
         }
         if (fad == null) {
             throw new IllegalArgumentException("Fadet skal angives");

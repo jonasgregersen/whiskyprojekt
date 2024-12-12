@@ -69,6 +69,9 @@ public class Fad implements Historikable {
         if (!klarTilTapning()) { // Fadet skal være lagret i mindst 3 år.
             throw new IllegalArgumentException("Fadet er ikke klar til tapning.");
         }
+        if (mængde <= 0) {
+            throw new IllegalArgumentException("Tapmængden skal være over 0.");
+        }
         double tapMængde = 0;
         HashMap<Destillering, Double> tapningPrDestillat = beregnTapningPrDestillat(mængde);
         for (Map.Entry<Destillering, Double> d : destillater.entrySet()) {
@@ -82,7 +85,7 @@ public class Fad implements Historikable {
         return tapningPrDestillat;
     }
 
-    private HashMap<Destillering, Double> beregnTapningPrDestillat(double mængde) {
+    public HashMap<Destillering, Double> beregnTapningPrDestillat(double mængde) {
         double tapMængde = 0;
         HashMap<Destillering, Double> tapningPrDestillat = new HashMap<>();
         for (Map.Entry<Destillering, Double> d : destillater.entrySet()) {
