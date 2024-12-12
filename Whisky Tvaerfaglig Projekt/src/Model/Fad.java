@@ -53,6 +53,9 @@ public class Fad implements Historikable {
         if (destillat == null) {
             throw new IllegalArgumentException("Spiritbatch skal specificeres.");
         }
+        if (!destillat.isDataRegistreret()) {
+            throw new IllegalArgumentException("Registreringsdata er ikke registreret.");
+        }
         destillater.put(destillat, destillater.containsKey(destillat) ?
                 destillater.get(destillat) + mængde : mængde);
         this.nuværendeIndhold += mængde;

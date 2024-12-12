@@ -45,7 +45,7 @@ public class Tapning {
         beregnetAlkoPct = totalAlkoholVolumen / totalMængde * 100;
         return beregnetAlkoPct;
     }
-    private HashMap<Fad, Double> beregnReduceretVæske(double mængde) {
+    public HashMap<Fad, Double> beregnReduceretVæske(double mængde) {
         if (totalMængde - mængde < 0) {
             throw new IllegalArgumentException("Der er ikke nok væske i tapningen.");
         }

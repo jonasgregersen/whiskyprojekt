@@ -16,6 +16,7 @@ public class Destillering implements Historikable{
     private String maltBatch;
     private Råvare råvare;
     private double råvareMængde;
+    private boolean dataRegistreret = false;
 
 
     public Destillering(LocalDate startDato, LocalDate slutDato, String spiritBatch) {
@@ -47,6 +48,7 @@ public class Destillering implements Historikable{
         }
         this.alkoholProcent = alkoholProcent;
         this.mængde = mængde;
+        this.dataRegistreret = true;
         registrerHændelse("Dataregistrering", "Destillering afsluttet. Alkohol procent: " + alkoholProcent + ", mængde : " + mængde);
     }
 
@@ -132,5 +134,8 @@ public class Destillering implements Historikable{
     }
     public String toString() {
         return spiritBatch;
+    }
+    public boolean isDataRegistreret() {
+        return dataRegistreret;
     }
 }
