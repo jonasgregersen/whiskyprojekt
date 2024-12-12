@@ -21,7 +21,9 @@ class TapningTest {
     void testTilføjFad_NormaltTilfælde() {
         Tapning tapning = new Tapning("Batch002", 5.0);
         Fad fad = new Fad(1, Fad.FadType.BOURBON, 200.0, "Kentucky");
-        fad.påfyld(new Destillering(LocalDate.now(), LocalDate.now(), "Batch001"), 50.0);
+        Destillering destillering = new Destillering(LocalDate.now(), LocalDate.now(), "Batch001");
+        destillering.registrerDestilleringsData(60.0, 100.0);
+        fad.påfyld(destillering, 50.0);
 
         tapning.tilføjFad(fad, 20.0);
 
@@ -41,15 +43,17 @@ class TapningTest {
     @Test
     void testBeregnAlkoholProcent() {
         Tapning tapning = new Tapning("Batch004", 10.0);
+        Destillering destillering = new Destillering(LocalDate.now(), LocalDate.now(), "Batch001");
+        destillering.registrerDestilleringsData(60.0, 100.0);
         Fad fad1 = new Fad(1, Fad.FadType.BOURBON, 200.0, "Kentucky");
-        fad1.påfyld(new Destillering(LocalDate.now(), LocalDate.now(), "Batch001"), 50.0);
+        fad1.påfyld(destillering, 50.0);
         Fad fad2 = new Fad(2, Fad.FadType.SHERRY, 150.0, "Spanien");
-        fad2.påfyld(new Destillering(LocalDate.now(), LocalDate.now(), "Batch002"), 30.0);
+        fad2.påfyld(destillering, 30.0);
 
         tapning.tilføjFad(fad1, 20.0);
         tapning.tilføjFad(fad2, 10.0);
 
-        double forventetAlkoholProcent = ((20.0 * fad1.beregnAlkoholProcent()) + (10.0 * fad2.beregnAlkoholProcent())) / 30.0;
+        double forventetAlkoholProcent = 45;
         assertEquals(forventetAlkoholProcent, tapning.beregnAlkoholProcent());
     }
 
@@ -57,7 +61,9 @@ class TapningTest {
     void testBeregnReduceretVæske() {
         Tapning tapning = new Tapning("Batch005", 10.0);
         Fad fad = new Fad(1, Fad.FadType.BOURBON, 200.0, "Kentucky");
-        fad.påfyld(new Destillering(LocalDate.now(), LocalDate.now(), "Batch001"), 50.0);
+        Destillering destillering = new Destillering(LocalDate.now(), LocalDate.now(), "Batch001");
+        destillering.registrerDestilleringsData(60.0, 100.0);
+        fad.påfyld(destillering, 50.0);
         tapning.tilføjFad(fad, 20.0);
 
         HashMap<Fad, Double> reduceretVæske = tapning.beregnReduceretVæske(10.0);
@@ -74,7 +80,9 @@ class TapningTest {
     void testTilførProdukt() {
         Tapning tapning = new Tapning("Batch006", 10.0);
         Fad fad = new Fad(1, Fad.FadType.BOURBON, 200.0, "Kentucky");
-        fad.påfyld(new Destillering(LocalDate.now(), LocalDate.now(), "Batch001"), 50.0);
+        Destillering destillering = new Destillering(LocalDate.now(), LocalDate.now(), "Batch001");
+        destillering.registrerDestilleringsData(60.0, 100.0);
+        fad.påfyld(destillering, 50.0);
         tapning.tilføjFad(fad, 20.0);
 
         WhiskyProdukt produkt = new WhiskyProdukt("Whisky001", "adada",tapning,15.0);
