@@ -1,6 +1,7 @@
 package GUI;
 
 import Model.Fad;
+import Controller.Controller;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;

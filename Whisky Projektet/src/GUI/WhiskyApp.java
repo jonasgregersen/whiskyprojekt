@@ -1,5 +1,7 @@
 package GUI;
 
+import Model.*;
+import Controller.Controller;
 import javafx.application.Application;
 
 import java.time.LocalDate;

@@ -25,5 +25,7 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="javafx" level="application" />
+    <orderEntry type="module" module-name="Whisky Tvaerfaglig Projekt" />
   </component>
 </module>
